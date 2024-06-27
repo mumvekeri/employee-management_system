@@ -103,6 +103,21 @@ def attendance():
     return render_template('attendance.html', title='Attendance', form=form, attendance_records=attendance_records)
 
 
+@app.route("/payroll", methods=['GET', 'POST'])
+@login_required
+def payroll():
+    form = PayrollForm()
+    if form.validate_on_submit():
+        payroll_record = Payroll(user_id=current_user.id, salary=form.salary.data, bonus=form.bonus.data, deductions=form.deductions.data)
+        db.session.add(payroll_record)
+        db.session.commit()
+        flash('Payroll record added successfully!', 'success')
+        return redirect(url_for('payroll'))
+    payroll_records = Payroll.query.filter_by(user_id=current_user.id).all()
+    return render_template('payroll.html', title='Payroll', form=form, payroll_records=payroll_records)
+
+
+
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)

@@ -14,6 +14,8 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     role = db.Column(db.String(10), nullable=False, default='employee')
     profile = db.relationship('Profile', backref='user', uselist=False)
+    attendance = db.relationship('Attendance', back_populates='user')
+    payroll = db.relationship('Payroll', back_populates='user')
 
     def __repr__(self):
         return f"User('{self.username}', '{self.email}', '{self.image_file}')"
@@ -29,3 +31,29 @@ class Profile(db.Model):
     def __repr__(self):
         return f"Profile('{self.user_id}', '{self.bio}', '{self.address}', '{self.phone}')"
 
+class Attendance(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    check_in = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    check_out = db.Column(db.DateTime, nullable=True)
+
+    user = db.relationship('User', back_populates='attendance')
+
+    def __repr__(self):
+        return f"Attendance('{self.user_id}', '{self.check_in}', '{self.check_out}')"
+
+class Payroll(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    salary = db.Column(db.Float, nullable=False)
+    bonus = db.Column(db.Float, nullable=True)
+    deductions = db.Column(db.Float, nullable=True)
+    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    user = db.relationship('User', back_populates='payroll')
+
+    def __repr__(self):
+        return f"Payroll('{self.user_id}', '{self.salary}', '{self.date}')"
+
+User.attendance = db.relationship('Attendance', order_by=Attendance.id, back_populates='user')
+User.payroll = db.relationship('Payroll', order_by=Payroll.id, back_populates='user')

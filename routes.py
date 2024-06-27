@@ -79,6 +79,30 @@ def account():
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='Account', image_file=image_file, form=form, profile_form=profile_form)
 
+
+@app.route("/attendance", methods=['GET', 'POST'])
+@login_required
+def attendance():
+    form = AttendanceForm()
+    if form.validate_on_submit():
+        if form.submit_check_in.data:
+            attendance_record = Attendance(user_id=current_user.id)
+            db.session.add(attendance_record)
+            db.session.commit()
+            flash('Checked in successfully!', 'success')
+        elif form.submit_check_out.data:
+            attendance_record = Attendance.query.filter_by(user_id=current_user.id).order_by(Attendance.id.desc()).first()
+            if attendance_record and attendance_record.check_out is None:
+                attendance_record.check_out = datetime.utcnow()
+                db.session.commit()
+                flash('Checked out successfully!', 'success')
+            else:
+                flash('No check-in record found or already checked out.', 'danger')
+        return redirect(url_for('attendance'))
+    attendance_records = Attendance.query.filter_by(user_id=current_user.id).all()
+    return render_template('attendance.html', title='Attendance', form=form, attendance_records=attendance_records)
+
+
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)
     _, f_ext = os.path.splitext(form_picture.filename)

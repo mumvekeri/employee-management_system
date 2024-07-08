@@ -65,6 +65,7 @@
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
+    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Employee Management System</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -97,23 +98,72 @@
         </div>
     </nav>
 
+    <!-- Main Content Area -->
     <div class="container mt-5">
+        <!-- Jumbotron with welcome message -->
         <div class="jumbotron">
             <h1 class="display-4">Welcome to the Employee Management System</h1>
             <p class="lead">Manage your employees and departments efficiently and effectively.</p>
             <hr class="my-4">
             <p>Use the navigation bar to get started.</p>
         </div>
+
+        <!-- Form Section -->
+        <div class="card">
+            <div class="card-header">
+                Add New Employee
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" class="form-control" id="fullName" placeholder="Enter full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobTitle">Job Title</label>
+                        <input type="text" class="form-control" id="jobTitle" placeholder="Enter job title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="department">Department</label>
+                        <input type="text" class="form-control" id="department" placeholder="Enter department" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cellNumber">Cell Number</label>
+                        <input type="text" class="form-control" id="cellNumber" placeholder="Enter cell number" pattern="[0-9]{10}" title="Please enter a 10-digit phone number" required>
+                        <small class="form-text text-muted">Please enter a 10-digit phone number.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter email address" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
     </div>
 
+    <!-- Footer -->
     <footer class="footer mt-auto py-3 bg-light">
         <div class="container">
             <span class="text-muted">&copy; 2024 Employee Management System. All rights reserved.</span>
         </div>
     </footer>
 
+    <!-- JavaScript dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cellNumberInput = document.getElementById('cellNumber');
+
+            cellNumberInput.addEventListener('input', function(event) {
+                var value = event.target.value;
+                // Remove non-numeric characters
+                var newValue = value.replace(/\D/g, '');
+                event.target.value = newValue;
+            });
+        });
+    </script>
 </body>
 </html>

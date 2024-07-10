@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outlook Style Calendar</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Custom CSS */
+        body {
+            padding-top: 20px;
+            background-color: #f8f9fa; /* Light grey background */
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            padding-bottom: 50px;
+        }
+        #calendar {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .fc-header-toolbar {
+            padding: 10px;
+            background-color: #007bff; /* Blue header background */
+            color: #fff;
+            border-radius: 5px 5px 0 0;
+        }
+        .fc-toolbar-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .fc-daygrid-event {
+            background-color: #007bff;
+            color: #fff;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+        }
+        .fc-daygrid-event:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        .fc-daygrid-event-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .fc-daygrid-event-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .fc-daygrid-event-time {
+            margin-left: 10px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .fc-today {
+            background-color: #f0f0f0; /* Today's background color */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 offset-md-1">
+            <div id="calendar"></div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/5.8.0/fullcalendar.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            events: [
+                {
+                    title: 'Team Meeting',
+                    start: '2024-07-10T10:00:00',
+                    end: '2024-07-10T12:00:00',
+                    description: 'Monthly team review meeting'
+                },
+                {
+                    title: 'Holiday',
+                    start: '2024-07-15',
+                    end: '2024-07-16',
+                    description: 'Public holiday'
+                },
+                {
+                    title: 'Project Deadline',
+                    start: '2024-07-20',
+                    description: 'Final deadline for project submission'
+                }
+                // Add more events as needed
+            ],
+            eventDidMount: function(info) {
+                var eventEl = info.el;
+                var titleEl = eventEl.querySelector('.fc-daygrid-event-title');
+                var timeEl = eventEl.querySelector('.fc-daygrid-event-time');
+                eventEl.innerHTML = '<div class="fc-daygrid-event-dot"></div>' + titleEl.outerHTML + timeEl.outerHTML;
+            }
+        });
+
+        calendar.render();
+    });
+</script>
+</body>
+</html>

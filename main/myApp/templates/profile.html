@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            flex: 1;
+        }
+
+        .card {
+            margin-top: 5rem;
+            border-radius: 10px;
+            background-color: #e9f1f7; /* Light blue background color */
+            padding: 20px; /* Add padding for better readability */
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .card-footer {
+            background-color: #f8f9fa;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .form-group label {
+            font-size: 1.2rem;
+        }
+
+        .form-group input, .form-group select {
+            font-size: 1.1rem;
+        }
+
+        .form-check-label {
+            font-size: 1rem;
+        }
+
+        .footer {
+            background-color: #f8f9fa;
+            padding: 1rem 0;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Employee Management System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-home"></i> Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-users"></i> Employees</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-building"></i> Departments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-calendar-alt"></i> Calendar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-cogs"></i> Settings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Form Section -->
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                Add / Update Employee
+            </div>
+            <div class="card-body">
+                <form id="employeeForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" class="form-control" id="fullName" placeholder="Enter full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="jobTitle">Job Title</label>
+                        <input type="text" class="form-control" id="jobTitle" placeholder="Enter job title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="department">Department</label>
+                        <input type="text" class="form-control" id="department" placeholder="Enter department" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cellNumber">Cell Number</label>
+                        <input type="text" class="form-control" id="cellNumber" placeholder="Enter cell number" pattern="[0-9]{10}" title="Please enter a 10-digit phone number" required>
+                        <small class="form-text text-muted">Please enter a 10-digit phone number.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" placeholder="Enter email address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateJoined">Date Joined</label>
+                        <input type="date" class="form-control" id="dateJoined" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="picture">Picture</label>
+                        <input type="file" class="form-control-file" id="picture">
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="submitButton">Add Employee</button>
+                    <button type="button" class="btn btn-warning ml-2" id="updateButton" style="display:none;">Update Employee</button>
+                    <button type="button" class="btn btn-danger ml-2" id="deleteButton" style="display:none;">Delete Employee</button>
+                    <button type="button" class="btn btn-secondary ml-2" id="resetButton">Reset Form</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Employee List -->
+        <div class="mt-5">
+            <h2>Employee List</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Full Name</th>
+                        <th>Job Title</th>
+                        <th>Department</th>
+                        <th>Cell Number</th>
+                        <th>Email</th>
+                        <th>Date Joined</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="employeeTableBody">
+                    <!-- Employee rows will be dynamically added here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container">
+            <span class="text-muted">&copy; 2024 Employee Management System. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <!-- JavaScript dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Sample data for demonstration
+        var employees = [
+            { id: 1, fullName: 'John Doe', jobTitle: 'Software Engineer', department: 'Engineering', cellNumber: '1234567890', email: 'john.doe@example.com', dateJoined: '2024-01-01', picture: 'default_picture.jpg' },
+            { id: 2, fullName: 'Jane Smith', jobTitle: 'HR Manager', department: 'Human Resources', cellNumber: '9876543210', email: 'jane.smith@example.com', dateJoined: '2023-05-15', picture: 'default_picture.jpg' }
+        ];
+
+        $(document).ready(function() {
+            var employeeTableBody = $('#employeeTableBody');
+
+            // Function to display employees in the table
+            function displayEmployees() {
+                employeeTableBody.empty(); // Clear existing table rows
+                employees.forEach(function(employee) {
+                    var row = '<tr>'
+                            + '<td>' + employee.fullName + '</td>'
+                            + '<td>' + employee.jobTitle + '</td>'
+                            + '<td>' + employee.department + '</td>'
+                            + '<td>' + employee.cellNumber + '</td>'
+                            + '<td>' + employee.email + '</td>'
+                            + '<td>' + employee.dateJoined + '</td>'
+                            + '<td>'
+                            + '<button type="button" class="btn btn-sm btn-info mr-2 editEmployee" data-id="' + employee.id + '">Edit</button>'
+                            + '<button type="button" class="btn btn-sm btn-danger deleteEmployee" data-id="' + employee.id + '">Delete</button>'
+                            + '</td>'
+                            + '</tr>';
+                    employeeTableBody.append(row);
+                });
+            }
+
+            // Initial display of employees
+            displayEmployees();
+
+            // Add employee
+            $('#employeeForm').submit(function(event) {
+                event.preventDefault();
+                var fullName = $('#fullName').val();
+                var jobTitle = $('#jobTitle').val();
+                var department = $('#department').val();
+                var cellNumber = $('#cellNumber').val();
+                var email = $('#email').val();
+                var dateJoined = $('#dateJoined').val();
+                var picture = $('#picture').val(); // Replace with actual handling of picture upload
+
+                // Generate unique ID (for demo, replace with actual ID generation logic)
+                var id = employees.length + 1;
+
+                // Add new employee to array
+                employees.push({
+                    id: id,
+                    fullName: fullName,
+                    jobTitle: jobTitle,
+                    department: department,
+                    cellNumber: cellNumber,
+                    email: email,
+                    dateJoined: dateJoined,
+                    picture: picture // Handle picture upload
+                });
+
+                // Update table display
+                displayEmployees();
+
+                // Reset form
+                $('#employeeForm')[0].reset();
+            });
+
+            // Edit employee
+            $(document).on('click', '.editEmployee', function() {
+                var id = $(this).data('id');
+                var employee = employees.find(emp => emp.id === id);
+                if (employee) {
+                    $('#fullName').val(employee.fullName);
+                    $('#jobTitle').val(employee.jobTitle);
+                    $('#department').val(employee.department);
+                    $('#cellNumber').val(employee.cellNumber);
+                    $('#email').val(employee.email);
+                    $('#dateJoined').val(employee.dateJoined);
+
+                    // Show update and delete buttons, hide add button
+                    $('#submitButton').hide();
+                    $('#updateButton').show().data('id', id);
+                    $('#deleteButton').show().data('id', id);
+                }
+            });
+
+            // Update employee
+            $('#updateButton').click(function() {
+                var id = $(this).data('id');
+                var index = employees.findIndex(emp => emp.id === id);
+                if (index !== -1) {
+                    employees[index].fullName = $('#fullName').val();
+                    employees[index].jobTitle = $('#jobTitle').val();
+                    employees[index].department = $('#department').val();
+                    employees[index].cellNumber = $('#cellNumber').val();
+                    employees[index].email = $('#email').val();
+                    employees[index].dateJoined = $('#dateJoined').val();
+
+                    // Update table display
+                    displayEmployees();
+
+                    // Reset form and buttons
+                    $('#employeeForm')[0].reset();
+                    $('#submitButton').show();
+                    $('#updateButton').hide();
+                    $('#deleteButton').hide();
+                }
+            });
+
+            // Delete employee
+            $(document).on('click', '.deleteEmployee', function() {
+                var id = $(this).data('id');
+                var index = employees.findIndex(emp => emp.id === id);
+                if (index !== -1) {
+                    employees.splice(index, 1);
+                    displayEmployees();
+
+                    // Reset form and buttons
+                    $('#employeeForm')[0].reset();
+                    $('#submitButton').show();
+                    $('#updateButton').hide();
+                    $('#deleteButton').hide();
+                }
+            });
+
+            // Reset form
+            $('#resetButton').click(function() {
+                $('#employeeForm')[0].reset();
+                $('#submitButton').show();
+                $('#updateButton').hide();
+                $('#deleteButton').hide();
+            });
+        });
+    </script>
+</body>
+</html>

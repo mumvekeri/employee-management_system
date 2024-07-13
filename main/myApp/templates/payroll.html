@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Custom styles for the page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            padding: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Employee Management System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="create_employee.html"><i class="fas fa-users"></i> Employees</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="departments.html"><i class="fas fa-building"></i> Departments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="calendar.html"><i class="fas fa-calendar-alt"></i> Calendar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="attendance.html"><i class="fas fa-clock"></i> Attendance</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="perfomance.html"><i class="fas fa-chart-line"></i> Performance Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="payroll.html"><i class="fas fa-money-bill-wave"></i> Payroll Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="settings.html"><i class="fas fa-cogs"></i> Settings</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                Payroll Management
+            </div>
+            <div class="card-body">
+                <!-- Tabs for different functionalities -->
+                <ul class="nav nav-tabs" id="tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="processing-tab" data-toggle="tab" href="#processing" role="tab" aria-controls="processing" aria-selected="true">Payroll Processing</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="calculations-tab" data-toggle="tab" href="#calculations" role="tab" aria-controls="calculations" aria-selected="false">Salary Calculations</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="deductions-tab" data-toggle="tab" href="#deductions" role="tab" aria-controls="deductions" aria-selected="false">Deductions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="bonuses-tab" data-toggle="tab" href="#bonuses" role="tab" aria-controls="bonuses" aria-selected="false">Bonuses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="taxes-tab" data-toggle="tab" href="#taxes" role="tab" aria-controls="taxes" aria-selected="false">Tax Information</a>
+                    </li>
+                </ul>
+                <!-- Tab content -->
+                <div class="tab-content mt-3" id="tabsContent">
+                    <!-- Payroll Processing tab -->
+                    <div class="tab-pane fade show active" id="processing" role="tabpanel" aria-labelledby="processing-tab">
+                        <h5>Payroll Processing</h5>
+                        <!-- Include payroll processing management here -->
+                        <p>Process payroll for all employees.</p>
+                    </div>
+                    <!-- Salary Calculations tab -->
+                    <div class="tab-pane fade" id="calculations" role="tabpanel" aria-labelledby="calculations-tab">
+                        <h5>Salary Calculations</h5>
+                        <!-- Include salary calculations management here -->
+                        <p>Calculate salaries based on employee details.</p>
+                    </div>
+                    <!-- Deductions tab -->
+                    <div class="tab-pane fade" id="deductions" role="tabpanel" aria-labelledby="deductions-tab">
+                        <h5>Deductions</h5>
+                        <!-- Include deductions management here -->
+                        <p>Manage deductions from employee salaries.</p>
+                    </div>
+                    <!-- Bonuses tab -->
+                    <div class="tab-pane fade" id="bonuses" role="tabpanel" aria-labelledby="bonuses-tab">
+                        <h5>Bonuses</h5>
+                        <!-- Include bonuses management here -->
+                        <p>Allocate bonuses to deserving employees.</p>
+                    </div>
+                    <!-- Tax Information tab -->
+                    <div class="tab-pane fade" id="taxes" role="tabpanel" aria-labelledby="taxes-tab">
+                        <h5>Tax Information</h5>
+                        <!-- Display tax-related information -->
+                        <p>Tax details and information for payroll.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

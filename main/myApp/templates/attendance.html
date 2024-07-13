@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Custom styles for the page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            padding: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Employee Management System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="create_employee.html"><i class="fas fa-users"></i> Employees</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="departments.html"><i class="fas fa-building"></i> Departments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="calendar.html"><i class="fas fa-calendar-alt"></i> Calendar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="attendance.html"><i class="fas fa-clock"></i> Attendance</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="perfomance.html"><i class="fas fa-chart-line"></i> Performance Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="payroll.html"><i class="fas fa-money-bill-wave"></i> Payroll Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="settings.html"><i class="fas fa-cogs"></i> Settings</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                Attendance and Time Tracking
+            </div>
+            <div class="card-body">
+                <!-- Tabs for different functionalities -->
+                <ul class="nav nav-tabs" id="tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="attendance-tab" data-toggle="tab" href="#attendance" role="tab" aria-controls="attendance" aria-selected="true">Attendance</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="leave-tab" data-toggle="tab" href="#leave" role="tab" aria-controls="leave" aria-selected="false">Leave Requests</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="balances-tab" data-toggle="tab" href="#balances" role="tab" aria-controls="balances" aria-selected="false">Time-off Balances</a>
+                    </li>
+                </ul>
+                <!-- Tab content -->
+                <div class="tab-content mt-3" id="tabsContent">
+                    <!-- Attendance tab -->
+                    <div class="tab-pane fade show active" id="attendance" role="tabpanel" aria-labelledby="attendance-tab">
+                        <h5>Employee Attendance</h5>
+                        <!-- Include attendance table or list here -->
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Employee Name</th>
+                                    <th>Check-in Time</th>
+                                    <th>Check-out Time</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Sample data rows -->
+                                <tr>
+                                    <td>2024-07-15</td>
+                                    <td>John Doe</td>
+                                    <td>09:00 AM</td>
+                                    <td>05:00 PM</td>
+                                    <td>Present</td>
+                                </tr>
+                                <tr>
+                                    <td>2024-07-15</td>
+                                    <td>Jane Smith</td>
+                                    <td>08:30 AM</td>
+                                    <td>04:30 PM</td>
+                                    <td>Present</td>
+                                </tr>
+                                <!-- Add more rows dynamically or fetch from database -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- Leave Requests tab -->
+                    <div class="tab-pane fade" id="leave" role="tabpanel" aria-labelledby="leave-tab">
+                        <h5>Leave Requests</h5>
+                        <!-- Leave requests management form or table -->
+                        <p>No leave requests at the moment.</p>
+                        <!-- Include form or leave requests list here -->
+                    </div>
+                    <!-- Time-off Balances tab -->
+                    <div class="tab-pane fade" id="balances" role="tabpanel" aria-labelledby="balances-tab">
+                        <h5>Time-off Balances</h5>
+                        <!-- Display time-off balances for each employee -->
+                        <p>John Doe - Annual Leave: 10 days remaining, Sick Leave: 5 days remaining</p>
+                        <p>Jane Smith - Annual Leave: 15 days remaining, Sick Leave: 3 days remaining</p>
+                        <!-- Include balance details or table here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

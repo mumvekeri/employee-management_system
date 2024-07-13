@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management System</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Custom styles for the page */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            padding: 20px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Employee Management System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="create_employee.html"><i class="fas fa-users"></i> Employees</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="departments.html"><i class="fas fa-building"></i> Departments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="calendar.html"><i class="fas fa-calendar-alt"></i> Calendar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="attendance.html"><i class="fas fa-clock"></i> Attendance</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="perfomance.html"><i class="fas fa-chart-line"></i> Performance Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="payroll.html"><i class="fas fa-money-bill-wave"></i> Payroll Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="settings.html"><i class="fas fa-cogs"></i> Settings</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                Performance Management
+            </div>
+            <div class="card-body">
+                <!-- Tabs for different functionalities -->
+                <ul class="nav nav-tabs" id="tabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="true">Performance Reviews</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="goals-tab" data-toggle="tab" href="#goals" role="tab" aria-controls="goals" aria-selected="false">Goal Setting</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="feedback-tab" data-toggle="tab" href="#feedback" role="tab" aria-controls="feedback" aria-selected="false">Feedback Collection</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="history-tab" data-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">Performance History</a>
+                    </li>
+                </ul>
+                <!-- Tab content -->
+                <div class="tab-content mt-3" id="tabsContent">
+                    <!-- Performance Reviews tab -->
+                    <div class="tab-pane fade show active" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
+                        <h5>Performance Reviews</h5>
+                        <!-- Include performance reviews management here -->
+                        <p>No performance reviews scheduled at the moment.</p>
+                    </div>
+                    <!-- Goal Setting tab -->
+                    <div class="tab-pane fade" id="goals" role="tabpanel" aria-labelledby="goals-tab">
+                        <h5>Goal Setting</h5>
+                        <!-- Include goal setting form or management here -->
+                        <p>Set new performance goals for employees.</p>
+                    </div>
+                    <!-- Feedback Collection tab -->
+                    <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
+                        <h5>Feedback Collection</h5>
+                        <!-- Include feedback collection form or management here -->
+                        <p>Collect feedback from employees on their performance.</p>
+                    </div>
+                    <!-- Performance History tab -->
+                    <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
+                        <h5>Performance History</h5>
+                        <!-- Display performance history for each employee -->
+                        <p>John Doe - Performance ratings for the last 12 months.</p>
+                        <p>Jane Smith - Performance ratings for the last 12 months.</p>
+                        <!-- Include performance history details or table here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

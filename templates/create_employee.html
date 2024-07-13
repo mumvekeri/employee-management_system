@@ -29,6 +29,11 @@
             background-color: #f8f9fa;
             padding: 1rem 0;
         }
+
+        .btn-custom {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.9rem;
+        }
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -77,14 +82,13 @@
                         <input type="text" class="form-control" id="fullName" placeholder="Enter full name" required>
                     </div>
                     <div class="form-group">
-                        <label for="initials">Identity Number</label>
+                        <label for="identityNumber">Identity Number</label>
                         <input type="text" class="form-control" id="identityNumber" placeholder="Enter your ID number" required>
                     </div>
                     <div class="form-group">
                         <label for="contactDetails">Contact Details</label>
                         <input type="text" class="form-control" id="contactDetails" placeholder="Enter contact details" required>
                     </div>
-                    
                     <div class="form-group">
                         <label for="address">Address</label>
                         <input type="text" class="form-control" id="address" placeholder="Enter address" required>
@@ -98,6 +102,22 @@
                         <input type="text" class="form-control" id="qualifications" placeholder="Enter qualifications" required>
                     </div>
                     <div class="form-group">
+                        <label for="department">Department</label>
+                        <input type="text" class="form-control" id="department" placeholder="Enter department" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="physicalAddress">Physical Address</label>
+                        <input type="text" class="form-control" id="physicalAddress" placeholder="Enter physical address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" class="form-control" id="title" placeholder="Enter title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateOfBirth">Date of Birth</label>
+                        <input type="date" class="form-control" id="dateOfBirth" required>
+                    </div>
+                    <div class="form-group">
                         <label for="photo">Photo</label>
                         <input type="file" class="form-control-file" id="photo" required>
                     </div>
@@ -105,8 +125,9 @@
                         <label for="cv">CV</label>
                         <input type="file" class="form-control-file" id="cv" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                    <button type="button" class="btn btn-danger" id="deleteButton">Delete</button>
+                    <button type="submit" class="btn btn-primary btn-custom">Save</button>
+                    <button type="button" class="btn btn-danger btn-custom" id="deleteButton">Delete</button>
+                    <button type="button" class="btn btn-secondary btn-custom" id="resetButton">Reset</button>
                 </form>
             </div>
         </div>
@@ -125,6 +146,10 @@
                             <th>Address</th>
                             <th>Job Title</th>
                             <th>Qualifications</th>
+                            <th>Department</th>
+                            <th>Physical Address</th>
+                            <th>Title</th>
+                            <th>Date of Birth</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -156,11 +181,15 @@
                 
                 const employee = {
                     fullName: $('#fullName').val(),
-                    initials: $('#initials').val(),
+                    identityNumber: $('#identityNumber').val(),
                     contactDetails: $('#contactDetails').val(),
                     address: $('#address').val(),
                     jobTitle: $('#jobTitle').val(),
                     qualifications: $('#qualifications').val(),
+                    department: $('#department').val(),
+                    physicalAddress: $('#physicalAddress').val(),
+                    title: $('#title').val(),
+                    dateOfBirth: $('#dateOfBirth').val(),
                     photo: $('#photo').val(),
                     cv: $('#cv').val(),
                 };
@@ -186,17 +215,27 @@
                 }
             });
 
+            // Reset Form
+            $('#resetButton').on('click', function() {
+                selectedEmployeeIndex = -1;
+                $('#employeeForm')[0].reset();
+            });
+
             // Edit Employee
             $('#employeeTableBody').on('click', '.edit-button', function() {
                 selectedEmployeeIndex = $(this).data('index');
                 const employee = employees[selectedEmployeeIndex];
 
                 $('#fullName').val(employee.fullName);
-                $('#initials').val(employee.initials);
+                $('#identityNumber').val(employee.identityNumber);
                 $('#contactDetails').val(employee.contactDetails);
                 $('#address').val(employee.address);
                 $('#jobTitle').val(employee.jobTitle);
                 $('#qualifications').val(employee.qualifications);
+                $('#department').val(employee.department);
+                $('#physicalAddress').val(employee.physicalAddress);
+                $('#title').val(employee.title);
+                $('#dateOfBirth').val(employee.dateOfBirth);
                 $('#photo').val(employee.photo);
                 $('#cv').val(employee.cv);
             });
@@ -210,13 +249,17 @@
                     const row = `
                         <tr>
                             <td>${employee.fullName}</td>
-                            <td>${employee.initials}</td>
+                            <td>${employee.identityNumber}</td>
                             <td>${employee.contactDetails}</td>
                             <td>${employee.address}</td>
                             <td>${employee.jobTitle}</td>
                             <td>${employee.qualifications}</td>
+                            <td>${employee.department}</td>
+                            <td>${employee.physicalAddress}</td>
+                            <td>${employee.title}</td>
+                            <td>${employee.dateOfBirth}</td>
                             <td>
-                                <button class="btn btn-primary edit-button" data-index="${index}">Edit</button>
+                                <button class="btn btn-primary btn-custom edit-button" data-index="${index}">Edit</button>
                             </td>
                         </tr>
                     `;

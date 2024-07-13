@@ -118,7 +118,14 @@
                     </div>
                     <div class="form-group">
                         <label for="department">Department</label>
-                        <input type="text" class="form-control" id="department" placeholder="Enter department" required>
+                        <select class="form-control" id="department" required>
+                            <option value="" disabled selected>Select department</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Human Resources">Human Resources</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Operations">Operations</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="cellNumber">Cell Number</label>
@@ -179,17 +186,26 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        // Sample data for demonstration
-        var employees = [
-            { id: 1, fullName: 'John Doe', jobTitle: 'Software Engineer', department: 'Engineering', cellNumber: '1234567890', email: 'john.doe@example.com', dateJoined: '2024-01-01', picture: 'default_picture.jpg' },
-            { id: 2, fullName: 'Jane Smith', jobTitle: 'HR Manager', department: 'Human Resources', cellNumber: '9876543210', email: 'jane.smith@example.com', dateJoined: '2023-05-15', picture: 'default_picture.jpg' }
-        ];
-
         $(document).ready(function() {
-            var employeeTableBody = $('#employeeTableBody');
+            // Function to fetch employees from local storage or initialize empty array
+            function fetchEmployees() {
+                var employees = localStorage.getItem('employees');
+                if (employees) {
+                    return JSON.parse(employees);
+                } else {
+                    return [];
+                }
+            }
 
-            // Function to display employees in the table
+            // Function to save employees to local storage
+            function saveEmployees(employees) {
+                localStorage.setItem('employees', JSON.stringify(employees));
+            }
+
+            // Initial display of employees
             function displayEmployees() {
+                var employees = fetchEmployees();
+                var employeeTableBody = $('#employeeTableBody');
                 employeeTableBody.empty(); // Clear existing table rows
                 employees.forEach(function(employee) {
                     var row = '<tr>'
@@ -208,9 +224,6 @@
                 });
             }
 
-            // Initial display of employees
-            displayEmployees();
-
             // Add employee
             $('#employeeForm').submit(function(event) {
                 event.preventDefault();
@@ -221,6 +234,8 @@
                 var email = $('#email').val();
                 var dateJoined = $('#dateJoined').val();
                 var picture = $('#picture').val(); // Replace with actual handling of picture upload
+
+                var employees = fetchEmployees();
 
                 // Generate unique ID (for demo, replace with actual ID generation logic)
                 var id = employees.length + 1;
@@ -237,6 +252,9 @@
                     picture: picture // Handle picture upload
                 });
 
+                // Save updated employees to local storage
+                saveEmployees(employees);
+
                 // Update table display
                 displayEmployees();
 
@@ -247,6 +265,7 @@
             // Edit employee
             $(document).on('click', '.editEmployee', function() {
                 var id = $(this).data('id');
+                var employees = fetchEmployees();
                 var employee = employees.find(emp => emp.id === id);
                 if (employee) {
                     $('#fullName').val(employee.fullName);
@@ -266,6 +285,7 @@
             // Update employee
             $('#updateButton').click(function() {
                 var id = $(this).data('id');
+                var employees = fetchEmployees();
                 var index = employees.findIndex(emp => emp.id === id);
                 if (index !== -1) {
                     employees[index].fullName = $('#fullName').val();
@@ -274,6 +294,9 @@
                     employees[index].cellNumber = $('#cellNumber').val();
                     employees[index].email = $('#email').val();
                     employees[index].dateJoined = $('#dateJoined').val();
+
+                    // Save updated employees to local storage
+                    saveEmployees(employees);
 
                     // Update table display
                     displayEmployees();
@@ -289,9 +312,15 @@
             // Delete employee
             $(document).on('click', '.deleteEmployee', function() {
                 var id = $(this).data('id');
+                var employees = fetchEmployees();
                 var index = employees.findIndex(emp => emp.id === id);
                 if (index !== -1) {
                     employees.splice(index, 1);
+
+                    // Save updated employees to local storage
+                    saveEmployees(employees);
+
+                    // Update table display
                     displayEmployees();
 
                     // Reset form and buttons
@@ -309,6 +338,9 @@
                 $('#updateButton').hide();
                 $('#deleteButton').hide();
             });
+
+            // Initial display of employees
+            displayEmployees();
         });
     </script>
 </body>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings and Administration - Employee Management System</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        .card-header {
+            background-color: #007bff;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Employee Management System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="create_employee.html"><i class="fas fa-users"></i> Employees</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="departments.html"><i class="fas fa-building"></i> Departments</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="calendar.html"><i class="fas fa-calendar-alt"></i> Calendar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="attendance.html"><i class="fas fa-clock"></i> Attendance</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="perfomance.html"><i class="fas fa-chart-line"></i> Performance Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="payroll.html"><i class="fas fa-money-bill-wave"></i> Payroll Management</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="settings.html"><i class="fas fa-cogs"></i> Settings</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                System Settings
+            </div>
+            <div class="card-body">
+                <form id="systemSettingsForm">
+                    <div class="form-group">
+                        <label for="siteName">Site Name:</label>
+                        <input type="text" class="form-control" id="siteName" name="siteName" placeholder="Enter site name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Administrator Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter admin email">
+                    </div>
+                    <div class="form-group">
+                        <label for="timezone">Timezone:</label>
+                        <select class="form-control" id="timezone" name="timezone">
+                            <!-- Add timezone options here -->
+                            <option value="UTC">UTC</option>
+                            <option value="EST">EST</option>
+                            <option value="PST">PST</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                User Roles and Permissions
+            </div>
+            <div class="card-body">
+                <form id="userRolesForm">
+                    <div class="form-group">
+                        <label for="roleName">Role Name:</label>
+                        <input type="text" class="form-control" id="roleName" name="roleName" placeholder="Enter role name">
+                    </div>
+                    <div class="form-group">
+                        <label for="permissions">Permissions:</label>
+                        <input type="text" class="form-control" id="permissions" name="permissions" placeholder="Enter permissions">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Role</button>
+                </form>
+                <hr>
+                <h5>Existing Roles</h5>
+                <ul id="rolesList" class="list-group">
+                    <!-- List of roles will be dynamically generated here -->
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                Integration with Other Systems
+            </div>
+            <div class="card-body">
+                <form id="integrationForm">
+                    <div class="form-group">
+                        <label for="integrationName">Integration Name:</label>
+                        <input type="text" class="form-control" id="integrationName" name="integrationName" placeholder="Enter integration name">
+                    </div>
+                    <div class="form-group">
+                        <label for="integrationDetails">Integration Details:</label>
+                        <textarea class="form-control" id="integrationDetails" name="integrationDetails" rows="4" placeholder="Enter integration details"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Integration</button>
+                </form>
+                <hr>
+                <h5>Existing Integrations</h5>
+                <ul id="integrationsList" class="list-group">
+                    <!-- List of integrations will be dynamically generated here -->
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                Customization Options
+            </div>
+            <div class="card-body">
+                <form id="customizationForm">
+                    <div class="form-group">
+                        <label for="theme">Theme:</label>
+                        <select class="form-control" id="theme" name="theme">
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="logo">Company Logo:</label>
+                        <input type="file" class="form-control-file" id="logo" name="logo">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Handle form submissions and interactions
+            $('#systemSettingsForm').on('submit', function(event) {
+                event.preventDefault();
+                // Implement system settings save logic here
+                alert('System settings saved!');
+            });
+
+            $('#userRolesForm').on('submit', function(event) {
+                event.preventDefault();
+                // Implement user roles save logic here
+                alert('Role added!');
+                // Add role to roles list
+                const roleName = $('#roleName').val();
+                $('#rolesList').append(`<li class="list-group-item">${roleName}</li>`);
+                $('#roleName').val('');
+                $('#permissions').val('');
+            });
+
+            $('#integrationForm').on('submit', function(event) {
+                event.preventDefault();
+                // Implement integration save logic here
+                alert('Integration added!');
+                // Add integration to integrations list
+                const integrationName = $('#integrationName').val();
+                $('#integrationsList').append(`<li class="list-group-item">${integrationName}</li>`);
+                $('#integrationName').val('');
+                $('#integrationDetails').val('');
+            });
+
+            $('#customizationForm').on('submit', function(event) {
+                event.preventDefault();
+                // Implement customization save logic here
+                alert('Customization settings saved!');
+            });
+        });
+    </script>
+</body>
+</html>

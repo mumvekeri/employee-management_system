@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Management System - Employees</title>
+    <title>Employee Management System</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: grey;
+            background-color: #f8f9fa;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
@@ -18,25 +18,58 @@
 
         .container {
             flex: 1;
-            margin-top: 20px;
         }
 
         .card {
-            margin-bottom: 20px;
+            margin-top: 5rem;
+            border-radius: 10px;
+            background-color: #e9f1f7; /* Light blue background color */
+            padding: 20px; /* Add padding for better readability */
+        }
+
+        .card-header {
+            background-color: #007bff;
+            color: white;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            text-align: center;
+            font-size: 1.5rem;
+        }
+
+        .card-footer {
+            background-color: #f8f9fa;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+
+        .form-group label {
+            font-size: 1.2rem;
+        }
+
+        .form-group input, .form-group select {
+            font-size: 1.1rem;
+        }
+
+        .form-check-label {
+            font-size: 1rem;
         }
 
         .footer {
             background-color: #f8f9fa;
             padding: 1rem 0;
         }
-
-        .btn-custom {
-            padding: 0.375rem 0.75rem;
-            font-size: 0.9rem;
-        }
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
+    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Employee Management System</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,9 +78,8 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                    </li>
+                    <a class="nav-link" href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="create_employee.html"><i class="fas fa-users"></i> Employees</a>
                 </li>
@@ -66,212 +98,198 @@
                 <li class="nav-item">
                     <a class="nav-link" href="payroll.html"><i class="fas fa-money-bill-wave"></i> Payroll Management</a>
                 </li>
-                <!--<li class="nav-item">
-                    <a class="nav-link" href="settings.html"><i class="fas fa-cogs"></i> Settings</a>
-                </li>-->
             </ul>
         </div>
     </nav>
 
-
-    <div class="container">
-        <h2 class="my-4">Employee Profiles</h2>
+    <!-- Form Section -->
+    <div class="container mt-5">
         <div class="card">
             <div class="card-header">
-                <h4>Create/Update Employee</h4>
+                Add / Update / Delete Employee
             </div>
             <div class="card-body">
                 <form id="employeeForm">
                     <div class="form-group">
+                        <label for="initials">Initials</label>
+                        <input type="text" class="form-control" id="initials" name="initials" placeholder="Enter initials" required>
+                    </div>
+                    <div class="form-group">
                         <label for="fullName">Full Name</label>
-                        <input type="text" class="form-control" id="fullName" placeholder="Enter full name" required>
+                        <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Enter full name" required>
                     </div>
                     <div class="form-group">
-                        <label for="identityNumber">Identity Number</label>
-                        <input type="text" class="form-control" id="identityNumber" placeholder="Enter your ID number" required>
+                        <label for="gender">Gender</label>
+                        <select class="form-control" id="gender" name="gender" required>
+                            <option value="" disabled selected>Select gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="contactDetails">Contact Details</label>
-                        <input type="text" class="form-control" id="contactDetails" placeholder="Enter contact details" required>
+                        <label for="age">Age</label>
+                        <input type="number" class="form-control" id="age" name="age" placeholder="Enter age" required>
                     </div>
                     <div class="form-group">
-                        <label for="address">Address</label>
-                        <input type="text" class="form-control" id="address" placeholder="Enter address" required>
+                        <label for="cellNumber">Cell Number</label>
+                        <input type="text" class="form-control" id="cellNumber" name="cellNumber" placeholder="Enter cell number" pattern="[0-9]{10}" title="Please enter a 10-digit phone number" required>
+                        <small class="form-text text-muted">Please enter a 10-digit phone number.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email address" required>
                     </div>
                     <div class="form-group">
                         <label for="jobTitle">Job Title</label>
-                        <input type="text" class="form-control" id="jobTitle" placeholder="Enter job title" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="qualifications">Qualifications</label>
-                        <input type="text" class="form-control" id="qualifications" placeholder="Enter qualifications" required>
+                        <input type="text" class="form-control" id="jobTitle" name="jobTitle" placeholder="Enter job title" required>
                     </div>
                     <div class="form-group">
                         <label for="department">Department</label>
-                        <input type="text" class="form-control" id="department" placeholder="Enter department" required>
+                        <select class="form-control" id="department" name="department" required>
+                            <option value="" disabled selected>Select department</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Human Resources">Human Resources</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Operations">Operations</option>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="physicalAddress">Physical Address</label>
-                        <input type="text" class="form-control" id="physicalAddress" placeholder="Enter physical address" required>
+                        <label for="dateJoined">Date Joined</label>
+                        <input type="date" class="form-control" id="dateJoined" name="dateJoined" required>
                     </div>
                     <div class="form-group">
-                        <label for="title">Title</label>
-                        <input type="text" class="form-control" id="title" placeholder="Enter title" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="dateOfBirth">Date of Birth</label>
-                        <input type="date" class="form-control" id="dateOfBirth" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="photo">Photo</label>
-                        <input type="file" class="form-control-file" id="photo" required>
+                        <label for="picture">Picture</label>
+                        <input type="file" class="form-control-file" id="picture" name="picture" required>
                     </div>
                     <div class="form-group">
                         <label for="cv">CV</label>
-                        <input type="file" class="form-control-file" id="cv" required>
+                        <input type="file" class="form-control-file" id="cv" name="cv" required>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-custom">Save</button>
-                    <button type="button" class="btn btn-danger btn-custom" id="deleteButton">Delete</button>
-                    <button type="button" class="btn btn-secondary btn-custom" id="resetButton">Reset</button>
+                    <button type="submit" class="btn btn-primary" id="submitButton">Add Employee</button>
+                    <button type="button" class="btn btn-warning ml-2" id="updateButton" style="display:none;">Update Employee</button>
+                    <button type="button" class="btn btn-danger ml-2" id="deleteButton" style="display:none;">Delete Employee</button>
+                    <button type="button" class="btn btn-secondary ml-2" id="resetButton">Reset Form</button>
                 </form>
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-header">
-                <h4>Employees List</h4>
-            </div>
-            <div class="card-body">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Full Name</th>
-                            <th>ID Number</th>
-                            <th>Contact Details</th>
-                            <th>Address</th>
-                            <th>Job Title</th>
-                            <th>Qualifications</th>
-                            <th>Department</th>
-                            <th>Physical Address</th>
-                            <th>Title</th>
-                            <th>Date of Birth</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="employeeTableBody">
-                        <!-- Employee rows will be added here dynamically -->
-                    </tbody>
-                </table>
-            </div>
+        <!-- Employee List -->
+        <div class="mt-5">
+            <h2>Employee List</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Initials</th>
+                        <th>Full Name</th>
+                        <th>Gender</th>
+                        <th>Age</th>
+                        <th>Cell Number</th>
+                        <th>Email</th>
+                        <th>Job Title</th>
+                        <th>Department</th>
+                        <th>Date Joined</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="employeeTableBody">
+                    <!-- Employee rows will be dynamically added here -->
+                </tbody>
+            </table>
         </div>
     </div>
 
+    <!-- Footer -->
     <footer class="footer mt-auto py-3 bg-light">
         <div class="container">
             <span class="text-muted">&copy; 2024 Employee Management System. All rights reserved.</span>
         </div>
     </footer>
 
+    <!-- JavaScript dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script>
-        $(document).ready(function() {
-            let employees = [];
-            let selectedEmployeeIndex = -1;
+        // JavaScript to handle form submission and employee table updates
 
-            // Save Employee
-            $('#employeeForm').on('submit', function(e) {
-                e.preventDefault();
-                
-                const employee = {
-                    fullName: $('#fullName').val(),
-                    identityNumber: $('#identityNumber').val(),
-                    contactDetails: $('#contactDetails').val(),
-                    address: $('#address').val(),
-                    jobTitle: $('#jobTitle').val(),
-                    qualifications: $('#qualifications').val(),
-                    department: $('#department').val(),
-                    physicalAddress: $('#physicalAddress').val(),
-                    title: $('#title').val(),
-                    dateOfBirth: $('#dateOfBirth').val(),
-                    photo: $('#photo').val(),
-                    cv: $('#cv').val(),
-                };
+        const employeeForm = document.getElementById('employeeForm');
+        const employeeTableBody = document.getElementById('employeeTableBody');
 
-                if (selectedEmployeeIndex === -1) {
-                    employees.push(employee);
-                } else {
-                    employees[selectedEmployeeIndex] = employee;
-                    selectedEmployeeIndex = -1;
-                }
+        employeeForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const formData = new FormData(employeeForm);
+            const employee = {
+                initials: formData.get('initials'),
+                fullName: formData.get('fullName'),
+                gender: formData.get('gender'),
+                age: formData.get('age'),
+                cellNumber: formData.get('cellNumber'),
+                email: formData.get('email'),
+                jobTitle: formData.get('jobTitle'),
+                department: formData.get('department'),
+                dateJoined: formData.get('dateJoined'),
+                picture: formData.get('picture').name,
+                cv: formData.get('cv').name,
+            };
 
-                $('#employeeForm')[0].reset();
-                renderEmployees();
-            });
-
-            // Delete Employee
-            $('#deleteButton').on('click', function() {
-                if (selectedEmployeeIndex !== -1) {
-                    employees.splice(selectedEmployeeIndex, 1);
-                    selectedEmployeeIndex = -1;
-                    $('#employeeForm')[0].reset();
-                    renderEmployees();
-                }
-            });
-
-            // Reset Form
-            $('#resetButton').on('click', function() {
-                selectedEmployeeIndex = -1;
-                $('#employeeForm')[0].reset();
-            });
-
-            // Edit Employee
-            $('#employeeTableBody').on('click', '.edit-button', function() {
-                selectedEmployeeIndex = $(this).data('index');
-                const employee = employees[selectedEmployeeIndex];
-
-                $('#fullName').val(employee.fullName);
-                $('#identityNumber').val(employee.identityNumber);
-                $('#contactDetails').val(employee.contactDetails);
-                $('#address').val(employee.address);
-                $('#jobTitle').val(employee.jobTitle);
-                $('#qualifications').val(employee.qualifications);
-                $('#department').val(employee.department);
-                $('#physicalAddress').val(employee.physicalAddress);
-                $('#title').val(employee.title);
-                $('#dateOfBirth').val(employee.dateOfBirth);
-                $('#photo').val(employee.photo);
-                $('#cv').val(employee.cv);
-            });
-
-            // Render Employees
-            function renderEmployees() {
-                const employeeTableBody = $('#employeeTableBody');
-                employeeTableBody.empty();
-
-                employees.forEach((employee, index) => {
-                    const row = `
-                        <tr>
-                            <td>${employee.fullName}</td>
-                            <td>${employee.identityNumber}</td>
-                            <td>${employee.contactDetails}</td>
-                            <td>${employee.address}</td>
-                            <td>${employee.jobTitle}</td>
-                            <td>${employee.qualifications}</td>
-                            <td>${employee.department}</td>
-                            <td>${employee.physicalAddress}</td>
-                            <td>${employee.title}</td>
-                            <td>${employee.dateOfBirth}</td>
-                            <td>
-                                <button class="btn btn-primary btn-custom edit-button" data-index="${index}">Edit</button>
-                            </td>
-                        </tr>
-                    `;
-                    employeeTableBody.append(row);
-                });
-            }
+            addEmployeeToTable(employee);
+            resetForm();
         });
+
+        function addEmployeeToTable(employee) {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${employee.initials}</td>
+                <td>${employee.fullName}</td>
+                <td>${employee.gender}</td>
+                <td>${employee.age}</td>
+                <td>${employee.cellNumber}</td>
+                <td>${employee.email}</td>
+                <td>${employee.jobTitle}</td>
+                <td>${employee.department}</td>
+                <td>${employee.dateJoined}</td>
+                <td>
+                    <button class="btn btn-warning btn-sm" onclick="editEmployee(this)">Edit</button>
+                    <button class="btn btn-danger btn-sm" onclick="deleteEmployee(this)">Delete</button>
+                </td>
+            `;
+            employeeTableBody.appendChild(row);
+        }
+
+        function resetForm() {
+            employeeForm.reset();
+            document.getElementById('submitButton').style.display = 'inline-block';
+            document.getElementById('updateButton').style.display = 'none';
+            document.getElementById('deleteButton').style.display = 'none';
+        }
+
+        function editEmployee(button) {
+            const row = button.closest('tr');
+            const cells = row.children;
+            document.getElementById('initials').value = cells[0].textContent;
+            document.getElementById('fullName').value = cells[1].textContent;
+            document.getElementById('gender').value = cells[2].textContent;
+            document.getElementById('age').value = cells[3].textContent;
+            document.getElementById('cellNumber').value = cells[4].textContent;
+            document.getElementById('email').value = cells[5].textContent;
+            document.getElementById('jobTitle').value = cells[6].textContent;
+            document.getElementById('department').value = cells[7].textContent;
+            document.getElementById('dateJoined').value = cells[8].textContent;
+
+            document.getElementById('submitButton').style.display = 'none';
+            document.getElementById('updateButton').style.display = 'inline-block';
+            document.getElementById('deleteButton').style.display = 'inline-block';
+        }
+
+        function deleteEmployee(button) {
+            const row = button.closest('tr');
+            row.remove();
+        }
+
+        document.getElementById('resetButton').addEventListener('click', resetForm);
     </script>
 </body>
 </html>

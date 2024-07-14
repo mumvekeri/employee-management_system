@@ -110,32 +110,17 @@
     <div class="container mt-5">
         <div class="card">
             <div class="card-header">
-                Add / Update Employee
+                Add / Update / Delete Employee
             </div>
             <div class="card-body">
                 <form id="employeeForm">
                     <div class="form-group">
+                        <div class="form-group">
+                            <label for="initials">Initials</label>
+                            <input type="text" class="form-control" id="initials" placeholder="Enter initials" required>
+                        </div>
                         <label for="fullName">Full Name</label>
                         <input type="text" class="form-control" id="fullName" placeholder="Enter full name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="initials">Initials</label>
-                        <input type="text" class="form-control" id="initials" placeholder="Enter initials" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="jobTitle">Job Title</label>
-                        <input type="text" class="form-control" id="jobTitle" placeholder="Enter job title" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="department">Department</label>
-                        <select class="form-control" id="department" required>
-                            <option value="" disabled selected>Select department</option>
-                            <option value="Engineering">Engineering</option>
-                            <option value="Human Resources">Human Resources</option>
-                            <option value="Finance">Finance</option>
-                            <option value="Marketing">Marketing</option>
-                            <option value="Operations">Operations</option>
-                        </select>
                     </div>
                     <div class="form-group">
                         <label for="gender">Gender</label>
@@ -160,12 +145,31 @@
                         <input type="email" class="form-control" id="email" placeholder="Enter email address" required>
                     </div>
                     <div class="form-group">
+                        <label for="jobTitle">Job Title</label>
+                        <input type="text" class="form-control" id="jobTitle" placeholder="Enter job title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="department">Department</label>
+                        <select class="form-control" id="department" required>
+                            <option value="" disabled selected>Select department</option>
+                            <option value="Engineering">Engineering</option>
+                            <option value="Human Resources">Human Resources</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Operations">Operations</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="dateJoined">Date Joined</label>
                         <input type="date" class="form-control" id="dateJoined" required>
                     </div>
                     <div class="form-group">
                         <label for="picture">Picture</label>
                         <input type="file" class="form-control-file" id="picture">
+                    </div>
+                    <div class="form-group">
+                        <label for="cv">CV</label>
+                        <input type="file" class="form-control-file" id="cv" required>
                     </div>
                     <button type="submit" class="btn btn-primary" id="submitButton">Add Employee</button>
                     <button type="button" class="btn btn-warning ml-2" id="updateButton" style="display:none;">Update Employee</button>

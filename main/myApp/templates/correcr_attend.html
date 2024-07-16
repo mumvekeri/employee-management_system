@@ -97,7 +97,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="attendanceEmployee">Employee</label>
-                                <select class="form-control" id="attendanceEmployee" required>
+                                <input type="text" class="form-control" id="attendanceEmployee" required>
                                     <!-- Options will be populated by JavaScript -->
                                 </select>
                             </div>
@@ -155,6 +155,9 @@
                             </tr>`;
                             attendanceTable.append(row);
                         });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching attendances:', error);
                     }
                 });
             }
@@ -170,6 +173,9 @@
                             let option = `<option value="${employee.id}">${employee.name}</option>`;
                             employeeSelect.append(option);
                         });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching employees:', error);
                     }
                 });
             }
@@ -178,7 +184,7 @@
                 e.preventDefault();
                 let attendanceData = {
                     date: $('#attendanceDate').val(),
-                    employee_id: $('#attendanceEmployee').val(),
+                    employee: $('#attendanceEmployee').val(),
                     check_in_time: $('#attendanceCheckIn').val(),
                     check_out_time: $('#attendanceCheckOut').val(),
                     status: $('#attendanceStatus').val()
@@ -189,9 +195,13 @@
                     method: 'POST',
                     contentType: 'application/json',
                     data: JSON.stringify(attendanceData),
-                    success: function() {
+                    success: function(response) {
+                        console.log('Attendance added successfully:', response);
                         fetchAttendances();
                         $('#attendanceForm')[0].reset();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error adding attendance:', error);
                     }
                 });
             });

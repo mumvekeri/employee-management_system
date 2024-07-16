@@ -36,7 +36,7 @@
                             </form>
                         </div>
                         <div class="card-footer text-center">
-                            <a href="#" class="text-muted">Forgot Password?</a>
+                            <a href="#" class="text-muted" data-toggle="modal" data-target="#forgotPasswordModal">Forgot Password?</a>
                             <br>
                         </div>
                     </div>
@@ -50,6 +50,29 @@
         </footer>
     </div>
 
+    <!-- Forgot Password Modal -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" role="dialog" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="forgotPasswordModalLabel">Reset Password</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="resetPasswordForm">
+                        <div class="form-group">
+                            <label for="resetEmail">Email address</label>
+                            <input type="email" class="form-control" id="resetEmail" placeholder="Enter email" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Reset Link</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -59,8 +82,8 @@
         // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
-      
+        import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
+
         // Your web app's Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBebOTrvpjIB2Tk26PmbsNYIng8U2Zs7aA",
@@ -70,8 +93,8 @@
             messagingSenderId: "977429992325",
             appId: "1:977429992325:web:f73862100dc00b53172aec",
             measurementId: "G-E6X49501QX"
-          };
-      
+        };
+
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
@@ -94,6 +117,22 @@
                 // Handle errors here
                 console.error('Login error:', error.message);
                 alert('Login failed. Please check your credentials and try again.');
+            }
+        });
+
+        // Password reset handling
+        const resetPasswordForm = document.getElementById('resetPasswordForm');
+        resetPasswordForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const resetEmail = document.getElementById('resetEmail').value;
+
+            try {
+                await sendPasswordResetEmail(auth, resetEmail);
+                alert('Password reset link sent to your email.');
+                $('#forgotPasswordModal').modal('hide');
+            } catch (error) {
+                console.error('Password reset error:', error.message);
+                alert('Failed to send password reset email. Please try again.');
             }
         });
     </script>

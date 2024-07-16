@@ -33,7 +33,7 @@
                             </form>
                         </div>
                         <div class="card-footer text-center">
-                            <a href="login.html" class="text-muted">Already have an account? Login here</a>
+                            <a href="{% url 'login' %}" class="text-muted">Already have an account? Login here</a>
                         </div>
                     </div>
                 </div>
@@ -89,8 +89,9 @@
                     // You can redirect or perform other actions here upon successful registration
                     alert('Registration successful. Please log in.');
                     // Redirect to login page after successful registration (optional)
-                    window.location.href = 'login.html';
+                    window.location.href = '{% url 'login' %}';
                 })
+            
                 .catch((error) => {
                     // Handle errors
                     const errorCode = error.code;

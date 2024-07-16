@@ -112,7 +112,7 @@
                 // Signed in successfully, redirect or handle logged in user
                 console.log('Logged in user:', userCredential.user);
                 // Example: redirect to dashboard
-                window.location.href = 'dashboard.html';
+                window.location.href = '{% url 'dashboard' %}';
             } catch (error) {
                 // Handle errors here
                 console.error('Login error:', error.message);

@@ -1,16 +1,10 @@
-from django.contrib import admin
-from django.urls import path, include
-from django.conf import settings
-from django.conf.urls.static import static
+from django.urls import path
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('attendance.urls')),
-]
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('employees.urls')),
+    path('', views.register, name='register'),
+    path('', register, name='register'),
+    path('', login, name='login'),
+    path('', dashboard, name='dashboard')
 ]

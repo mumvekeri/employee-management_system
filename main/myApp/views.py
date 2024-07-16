@@ -7,3 +7,7 @@ def login(request):
     return render(request, 'login.html', {})
 def dashboard(request):
     return render(request, 'dashboard.html', {}) 
+def prof(request):
+    return render(request, 'prof.html', {}) 
+def departments(request):
+    return render(request, 'departments.html', {})

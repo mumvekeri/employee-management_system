@@ -226,11 +226,11 @@
 
         // Event listeners for metric cards with redirection
         document.getElementById('totalEmployeesCard').addEventListener('click', function() {
-            window.location.href = 'create_employee.html'; // Redirect to employees page
+            window.location.href = "{% url 'prof' %}";
         });
 
         document.getElementById('totalDepartmentsCard').addEventListener('click', function() {
-            window.location.href = 'departments.html'; // Redirect to departments page
+            window.location.href = "{% url 'departments' %}"; // Redirect to departments page
         });
 
         document.getElementById('recentHiresCard').addEventListener('click', function() {

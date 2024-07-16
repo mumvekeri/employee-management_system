@@ -39,6 +39,38 @@
         .card .card-body i {
             font-size: 3rem;
         }
+
+        /* Style for search bar */
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
+            padding: 0 15px;
+        }
+
+        .search-container input[type=text] {
+            padding: 10px;
+            margin-top: 8px;
+            font-size: 17px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .search-container button {
+            padding: 10px;
+            margin-top: 8px;
+            margin-left: 5px;
+            background: #007bff;
+            color: white;
+            font-size: 17px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .search-container button:hover {
+            background: #0056b3;
+        }
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -48,6 +80,11 @@
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+        <div class="search-container">
+            <input type="text" placeholder="Search Employees..." id="employeeSearchInput">
+            <button type="button" id="employeeSearchButton"><i class="fa fa-search"></i></button>
+        </div>
+        
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
@@ -224,22 +261,24 @@
             });
         }
 
-        // Event listeners for metric cards with redirection
-        document.getElementById('totalEmployeesCard').addEventListener('click', function() {
-            window.location.href = 'create_employee.html'; // Redirect to employees page
+        // Search functionality
+        document.getElementById('employeeSearchButton').addEventListener('click', function() {
+            var searchInput = document.getElementById('employeeSearchInput').value.toLowerCase();
+            var filteredEmployees = employees.filter(emp => emp.fullName.toLowerCase().includes(searchInput));
+            displaySearchResults(filteredEmployees);
         });
 
-        document.getElementById('totalDepartmentsCard').addEventListener('click', function() {
-            window.location.href = 'departments.html'; // Redirect to departments page
-        });
-
-        document.getElementById('recentHiresCard').addEventListener('click', function() {
-            // No redirection for recent hires, you may add your URL if needed
-        });
-
-        document.getElementById('totalPoliciesCard').addEventListener('click', function() {
-            // No redirection for total policies, you may add your URL if needed
-        });
+        function displaySearchResults(results) {
+            var recentActivities = document.getElementById('recentActivities');
+            recentActivities.innerHTML = ''; // Clear previous content
+            results.forEach(function(employee) {
+                var activity = '<li class="mb-2">'
+                             + '<i class="fas fa-user"></i> '
+                             + employee.fullName + ' - ' + employee.jobTitle + ' (' + employee.department + ')'
+                             + '</li>';
+                recentActivities.insertAdjacentHTML('beforeend', activity);
+            });
+        }
 
         // Update dashboard on page load
         window.addEventListener('load', function() {

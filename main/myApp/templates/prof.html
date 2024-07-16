@@ -66,11 +66,6 @@
             background-color: #f8f9fa;
             padding: 1rem 0;
         }
-
-        .employee-img {
-            max-width: 100px;
-            max-height: 100px;
-        }
     </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -83,7 +78,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    <a class="nav-link" href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="create_employee.html"><i class="fas fa-users"></i> Employees</a>
@@ -103,6 +98,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="payroll.html"><i class="fas fa-money-bill-wave"></i> Payroll Management</a>
                 </li>
+                <!--<li class="nav-item">
+                    <a class="nav-link" href="settings.html"><i class="fas fa-cogs"></i> Settings</a>
+                </li>-->
             </ul>
         </div>
     </nav>
@@ -115,10 +113,6 @@
             </div>
             <div class="card-body">
                 <form id="employeeForm">
-                    <div class="form-group">
-                        <label for="initials">Initials</label>
-                        <input type="text" class="form-control" id="initials" placeholder="Enter initials" required>
-                    </div>
                     <div class="form-group">
                         <label for="fullName">Full Name</label>
                         <input type="text" class="form-control" id="fullName" placeholder="Enter full name" required>
@@ -162,15 +156,7 @@
                     </div>
                     <div class="form-group">
                         <label for="dateJoined">Date Joined</label>
-                        <input type="date" class="form-control" id="dateJoined" value="" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="picture">Picture</label>
-                        <input type="file" class="form-control-file" id="picture">
-                    </div>
-                    <div class="form-group">
-                        <label for="cv">CV</label>
-                        <input type="file" class="form-control-file" id="cv" required>
+                        <input type="date" class="form-control" id="dateJoined" required>
                     </div>
                     <button type="submit" class="btn btn-primary" id="submitButton">Add Employee</button>
                     <button type="button" class="btn btn-warning ml-2" id="updateButton" style="display:none;">Update Employee</button>
@@ -187,7 +173,6 @@
                 <thead>
                     <tr>
                         <th>Full Name</th>
-                        <th>Initials</th>
                         <th>Job Title</th>
                         <th>Department</th>
                         <th>Gender</th>
@@ -238,22 +223,22 @@
                 var employees = fetchEmployees();
                 var employeeTableBody = $('#employeeTableBody');
                 employeeTableBody.empty(); // Clear existing table rows
+
                 employees.forEach(function(employee) {
                     var row = '<tr>'
-                            + '<td>' + employee.fullName + '</td>'
-                            + '<td>' + employee.initials + '</td>'
-                            + '<td>' + employee.jobTitle + '</td>'
-                            + '<td>' + employee.department + '</td>'
-                            + '<td>' + employee.gender + '</td>'
-                            + '<td>' + employee.age + '</td>'
-                            + '<td>' + employee.cellNumber + '</td>'
-                            + '<td>' + employee.email + '</td>'
-                            + '<td>' + employee.dateJoined + '</td>'
-                            + '<td>'
-                            + '<button type="button" class="btn btn-sm btn-info mr-2 editEmployee" data-id="' + employee.id + '">Edit</button>'
-                            + '<button type="button" class="btn btn-sm btn-danger deleteEmployee" data-id="' + employee.id + '">Delete</button>'
-                            + '</td>'
-                            + '</tr>';
+                        + '<td>' + employee.fullName + '</td>'
+                        + '<td>' + employee.jobTitle + '</td>'
+                        + '<td>' + employee.department + '</td>'
+                        + '<td>' + employee.gender + '</td>'
+                        + '<td>' + employee.age + '</td>'
+                        + '<td>' + employee.cellNumber + '</td>'
+                        + '<td>' + employee.email + '</td>'
+                        + '<td>' + employee.dateJoined + '</td>'
+                        + '<td>'
+                        + '<button type="button" class="btn btn-sm btn-info editEmployee" data-id="' + employee.id + '">Edit</button>'
+                        + '<button type="button" class="btn btn-sm btn-danger deleteEmployee ml-2" data-id="' + employee.id + '">Delete</button>'
+                        + '</td>'
+                        + '</tr>';
                     employeeTableBody.append(row);
                 });
             }
@@ -262,15 +247,13 @@
             $('#employeeForm').submit(function(event) {
                 event.preventDefault();
                 var fullName = $('#fullName').val();
-                var initials = $('#initials').val();
                 var jobTitle = $('#jobTitle').val();
                 var department = $('#department').val();
                 var gender = $('#gender').val();
                 var age = $('#age').val();
                 var cellNumber = $('#cellNumber').val();
                 var email = $('#email').val();
-                var dateJoined = new Date().toISOString().slice(0, 10); // Get current date
-                var picture = $('#picture').val(); // Replace with actual handling of picture upload
+                var dateJoined = $('#dateJoined').val();
 
                 var employees = fetchEmployees();
 
@@ -281,15 +264,13 @@
                 employees.push({
                     id: id,
                     fullName: fullName,
-                    initials: initials,
                     jobTitle: jobTitle,
                     department: department,
                     gender: gender,
                     age: age,
                     cellNumber: cellNumber,
                     email: email,
-                    dateJoined: dateJoined,
-                    picture: picture // Handle picture upload
+                    dateJoined: dateJoined
                 });
 
                 // Save updated employees to local storage
@@ -309,7 +290,6 @@
                 var employee = employees.find(emp => emp.id === id);
                 if (employee) {
                     $('#fullName').val(employee.fullName);
-                    $('#initials').val(employee.initials);
                     $('#jobTitle').val(employee.jobTitle);
                     $('#department').val(employee.department);
                     $('#gender').val(employee.gender);
@@ -332,7 +312,6 @@
                 var index = employees.findIndex(emp => emp.id === id);
                 if (index !== -1) {
                     employees[index].fullName = $('#fullName').val();
-                    employees[index].initials = $('#initials').val();
                     employees[index].jobTitle = $('#jobTitle').val();
                     employees[index].department = $('#department').val();
                     employees[index].gender = $('#gender').val();

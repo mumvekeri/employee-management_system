@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Management System</title>
+    <title>Employee Management Dashboard</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
@@ -18,53 +18,26 @@
 
         .container {
             flex: 1;
+            margin-top: 20px;
         }
 
         .card {
-            margin-top: 5rem;
-            border-radius: 10px;
-            background-color: #e9f1f7; /* Light blue background color */
-            padding: 20px; /* Add padding for better readability */
-        }
-
-        .card-header {
-            background-color: #007bff;
-            color: white;
-            border-top-left-radius: 10px;
-            border-top-right-radius: 10px;
-            text-align: center;
-            font-size: 1.5rem;
-        }
-
-        .card-footer {
-            background-color: #f8f9fa;
-        }
-
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
-
-        .form-group label {
-            font-size: 1.2rem;
-        }
-
-        .form-group input, .form-group select {
-            font-size: 1.1rem;
-        }
-
-        .form-check-label {
-            font-size: 1rem;
+            margin-bottom: 20px;
+            cursor: pointer; /* Add cursor pointer for clickable cards */
         }
 
         .footer {
             background-color: #f8f9fa;
             padding: 1rem 0;
+        }
+
+        .dashboard-header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .card .card-body i {
+            font-size: 3rem;
         }
     </style>
 </head>
@@ -78,9 +51,8 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                    </li>
+                    <a class="nav-link" href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="create_employee.html"><i class="fas fa-users"></i> Employees</a>
                 </li>
@@ -94,105 +66,82 @@
                     <a class="nav-link" href="attendance.html"><i class="fas fa-clock"></i> Attendance</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="perfomance.html"><i class="fas fa-chart-line"></i> Performance Management</a>
+                    <a class="nav-link" href="performance.html"><i class="fas fa-chart-line"></i> Performance Management</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="payroll.html"><i class="fas fa-money-bill-wave"></i> Payroll Management</a>
                 </li>
-                <!--<li class="nav-item">
-                    <a class="nav-link" href="settings.html"><i class="fas fa-cogs"></i> Settings</a>
-                </li>-->
             </ul>
         </div>
     </nav>
 
-    <!-- Form Section -->
-    <div class="container mt-5">
-        <div class="card">
-            <div class="card-header">
-                Add / Update / Delete Employee
+    <!-- Dashboard Content -->
+    <div class="container">
+        <div class="dashboard-header">
+            <h1>Dashboard</h1>
+            <p>Welcome to the Employee Management Dashboard</p>
+        </div>
+
+        <!-- Key Metrics Section -->
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card text-white bg-primary mb-3" id="totalEmployeesCard">
+                    <div class="card-body text-center">
+                        <i class="fas fa-users"></i>
+                        <h5 class="card-title" id="totalEmployees">0</h5>
+                        <p class="card-text">Total Employees</p>
+                    </div>
+                </div>
             </div>
-            <div class="card-body">
-                <form id="employeeForm">
-                    <div class="form-group">
-                        <label for="initials">Initials</label>
-                        <input type="text" class="form-control" id="initials" placeholder="Enter initials" required>
+            <div class="col-md-3">
+                <div class="card text-white bg-success mb-3" id="totalDepartmentsCard">
+                    <div class="card-body text-center">
+                        <i class="fas fa-building"></i>
+                        <h5 class="card-title" id="totalDepartments">0</h5>
+                        <p class="card-text">Total Departments</p>
                     </div>
-                    <div class="form-group">
-                        <label for="fullName">Full Name</label>
-                        <input type="text" class="form-control" id="fullName" placeholder="Enter full name" required>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-warning mb-3" id="recentHiresCard">
+                    <div class="card-body text-center">
+                        <i class="fas fa-user-plus"></i>
+                        <h5 class="card-title" id="recentHires">0</h5>
+                        <p class="card-text">Recent Hires</p>
                     </div>
-                    <div class="form-group">
-                        <label for="gender">Gender</label>
-                        <select class="form-control" id="gender" required>
-                            <option value="" disabled selected>Select gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-white bg-info mb-3" id="totalPoliciesCard">
+                    <div class="card-body text-center">
+                        <i class="fas fa-file-alt"></i>
+                        <h5 class="card-title" id="totalPolicies">0</h5>
+                        <p class="card-text">Total Policies</p>
                     </div>
-                    <div class="form-group">
-                        <label for="age">Age</label>
-                        <input type="number" class="form-control" id="age" placeholder="Enter age" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="cellNumber">Cell Number</label>
-                        <input type="text" class="form-control" id="cellNumber" placeholder="Enter cell number" pattern="[0-9]{10}" title="Please enter a 10-digit phone number" required>
-                        <small class="form-text text-muted">Please enter a 10-digit phone number.</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Enter email address" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="jobTitle">Job Title</label>
-                        <input type="text" class="form-control" id="jobTitle" placeholder="Enter job title" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="department">Department</label>
-                        <select class="form-control" id="department" required>
-                            <option value="" disabled selected>Select department</option>
-                            <option value="Engineering">Engineering</option>
-                            <option value="Human Resources">Human Resources</option>
-                            <option value="Finance">Finance</option>
-                            <option value="Marketing">Marketing</option>
-                            <option value="Operations">Operations</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="dateJoined">Date Joined</label>
-                        <input type="date" class="form-control" id="dateJoined" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary" id="submitButton">Add Employee</button>
-                    <button type="button" class="btn btn-warning ml-2" id="updateButton" style="display:none;">Update Employee</button>
-                    <button type="button" class="btn btn-danger ml-2" id="deleteButton" style="display:none;">Delete Employee</button>
-                    <button type="button" class="btn btn-secondary ml-2" id="resetButton">Reset Form</button>
-                </form>
+                </div>
             </div>
         </div>
 
-        <!-- Employee List -->
-        <div class="mt-5">
-            <h2>Employee List</h2>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Full Name</th>
-                        <th>Initials</th>
-                        <th>Job Title</th>
-                        <th>Department</th>
-                        <th>Gender</th>
-                        <th>Age</th>
-                        <th>Cell Number</th>
-                        <th>Email</th>
-                        <th>Date Joined</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="employeeTableBody">
-                    <!-- Employee rows will be dynamically added here -->
-                </tbody>
-            </table>
+        <!-- Employee Statistics Section -->
+        <div class="card">
+            <div class="card-header">
+                Employee Statistics
+            </div>
+            <div class="card-body">
+                <canvas id="employeeStatsChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Recent Activities Section -->
+        <div class="card mt-4">
+            <div class="card-header">
+                Recent Activities
+            </div>
+            <div class="card-body">
+                <ul id="recentActivities" class="list-unstyled">
+                    <!-- Recent activities will be dynamically added here -->
+                </ul>
+            </div>
         </div>
     </div>
 
@@ -204,188 +153,99 @@
     </footer>
 
     <!-- JavaScript dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        $(document).ready(function() {
-            // Function to fetch employees from Django backend
-            function fetchEmployees() {
-                $.ajax({
-                    url: '/api/employees/', // Replace with your Django backend API endpoint
-                    type: 'GET',
-                    success: function(response) {
-                        $('#employeeTableBody').empty();
-                        $.each(response, function(index, employee) {
-                            $('#employeeTableBody').append(`
-                                <tr>
-                                    <td>${employee.fullName}</td>
-                                    <td>${employee.initials}</td>
-                                    <td>${employee.jobTitle}</td>
-                                    <td>${employee.department}</td>
-                                    <td>${employee.gender}</td>
-                                    <td>${employee.age}</td>
-                                    <td>${employee.cellNumber}</td>
-                                    <td>${employee.email}</td>
-                                    <td>${new Date(employee.dateJoined).toLocaleDateString()}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-primary editEmployee" data-id="${employee.id}">Edit</button>
-                                        <button type="button" class="btn btn-sm btn-danger deleteEmployee" data-id="${employee.id}">Delete</button>
-                                    </td>
-                                </tr>
-                            `);
-                        });
-                    },
-                    error: function(error) {
-                        console.log('Error fetching employees:', error);
-                    }
-                });
-            }
+        // Sample data for demonstration
+        var employees = [
+            { id: 1, fullName: 'John Doe', jobTitle: 'Software Engineer', department: 'Engineering', dateJoined: '2024-01-01' },
+            { id: 2, fullName: 'Jane Smith', jobTitle: 'HR Manager', department: 'Human Resources', dateJoined: '2023-05-15' },
+            { id: 3, fullName: 'Alice Johnson', jobTitle: 'Product Manager', department: 'Product', dateJoined: '2024-06-20' },
+            { id: 1, fullName: 'John Doe', jobTitle: 'Software Engineer', department: 'Engineering', dateJoined: '2024-01-01' },
+            { id: 2, fullName: 'Jane Smith', jobTitle: 'HR Manager', department: 'Human Resources', dateJoined: '2023-05-15' },
+            { id: 3, fullName: 'Alice Johnson', jobTitle: 'Product Manager', department: 'Product', dateJoined: '2024-06-20' }
+        ];
 
-            // Fetch employees on page load
-            fetchEmployees();
+        var departments = ['Engineering', 'Human Resources', 'Product'];
 
-            // Submitting the employee form
-            $('#employeeForm').submit(function(event) {
-                event.preventDefault();
-                var form = $(this);
-                var url = form.attr('action');
-                var initials = $('#initials').val();
-                var fullName = $('#fullName').val();
-                var gender = $('#gender').val();
-                var age = $('#age').val();
-                var cellNumber = $('#cellNumber').val();
-                var email = $('#email').val();
-                var jobTitle = $('#jobTitle').val();
-                var department = $('#department').val();
-                var dateJoined = $('#dateJoined').val();
+        // Function to calculate and display key metrics
+        function updateKeyMetrics() {
+            document.getElementById('totalEmployees').textContent = employees.length;
+            document.getElementById('totalDepartments').textContent = departments.length;
+            document.getElementById('recentHires').textContent = employees.filter(emp => {
+                var dateJoined = new Date(emp.dateJoined);
+                var today = new Date();
+                var diffTime = Math.abs(today - dateJoined);
+                var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                return diffDays <= 30;
+            }).length;
+            // For demonstration purposes, setting total policies to a static value
+            document.getElementById('totalPolicies').textContent = 10;
+        }
 
-                $.ajax({
-                    url: '/api/employees/', // Replace with your Django backend API endpoint
-                    type: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        initials: initials,
-                        fullName: fullName,
-                        gender: gender,
-                        age: age,
-                        cellNumber: cellNumber,
-                        email: email,
-                        jobTitle: jobTitle,
-                        department: department,
-                        dateJoined: dateJoined
-                    }),
-                    success: function(response) {
-                        // Clear form fields
-                        form[0].reset();
-                        // Refresh employee list
-                        fetchEmployees();
-                    },
-                    error: function(error) {
-                        console.log('Error adding employee:', error);
-                    }
-                });
+        // Function to display recent activities
+        function displayRecentActivities() {
+            var recentActivities = document.getElementById('recentActivities');
+            recentActivities.innerHTML = ''; // Clear previous content
+            employees.slice(-5).forEach(function(employee) {
+                var activity = '<li class="mb-2">'
+                             + '<i class="fas fa-user-plus text-success"></i> '
+                             + employee.fullName + ' joined as ' + employee.jobTitle
+                             + '</li>';
+                recentActivities.insertAdjacentHTML('beforeend', activity);
             });
+        }
 
-            // Reset form button
-            $('#resetButton').click(function() {
-                $('#employeeForm')[0].reset();
-                $('#submitButton').show();
-                $('#updateButton').hide();
-                $('#deleteButton').hide();
-            });
-
-            // Edit employee button click handler
-            $(document).on('click', '.editEmployee', function() {
-                var employeeId = $(this).data('id');
-                $.ajax({
-                    url: '/api/employees/' + employeeId + '/', // Replace with your Django backend API endpoint
-                    type: 'GET',
-                    success: function(employee) {
-                        $('#initials').val(employee.initials);
-                        $('#fullName').val(employee.fullName);
-                        $('#gender').val(employee.gender);
-                        $('#age').val(employee.age);
-                        $('#cellNumber').val(employee.cellNumber);
-                        $('#email').val(employee.email);
-                        $('#jobTitle').val(employee.jobTitle);
-                        $('#department').val(employee.department);
-                        $('#dateJoined').val(employee.dateJoined);
-                        $('#submitButton').hide();
-                        $('#updateButton').show().data('id', employeeId);
-                        $('#deleteButton').show().data('id', employeeId);
-                    },
-                    error: function(error) {
-                        console.log('Error fetching employee details:', error);
+        // Function to display employee statistics chart
+        function displayEmployeeStatsChart() {
+            var ctx = document.getElementById('employeeStatsChart').getContext('2d');
+            var employeeStatsChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: departments,
+                    datasets: [{
+                        label: '# of Employees',
+                        data: departments.map(department => employees.filter(emp => emp.department === department).length),
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            precision: 0
+                        }
                     }
-                });
+                }
             });
+        }
 
-            // Update employee button click handler
-            $('#updateButton').click(function() {
-                var employeeId = $(this).data('id');
-                var initials = $('#initials').val();
-                var fullName = $('#fullName').val();
-                var gender = $('#gender').val();
-                var age = $('#age').val();
-                var cellNumber = $('#cellNumber').val();
-                var email = $('#email').val();
-                var jobTitle = $('#jobTitle').val();
-                var department = $('#department').val();
-                var dateJoined = $('#dateJoined').val();
+        // Event listeners for metric cards with redirection
+        document.getElementById('totalEmployeesCard').addEventListener('click', function() {
+            window.location.href = 'create_employee.html'; // Redirect to employees page
+        });
 
-                $.ajax({
-                    url: '/api/employees/' + employeeId + '/', // Replace with your Django backend API endpoint
-                    type: 'PUT',
-                    contentType: 'application/json',
-                    data: JSON.stringify({
-                        initials: initials,
-                        fullName: fullName,
-                        gender: gender,
-                        age: age,
-                        cellNumber: cellNumber,
-                        email: email,
-                        jobTitle: jobTitle,
-                        department: department,
-                        dateJoined: dateJoined
-                    }),
-                    success: function(response) {
-                        // Clear form fields
-                        $('#employeeForm')[0].reset();
-                        // Reset buttons
-                        $('#submitButton').show();
-                        $('#updateButton').hide();
-                        $('#deleteButton').hide();
-                        // Refresh employee list
-                        fetchEmployees();
-                    },
-                    error: function(error) {
-                        console.log('Error updating employee:', error);
-                    }
-                });
-            });
+        document.getElementById('totalDepartmentsCard').addEventListener('click', function() {
+            window.location.href = 'departments.html'; // Redirect to departments page
+        });
 
-            // Delete employee button click handler
-            $('#deleteButton').click(function() {
-                var employeeId = $(this).data('id');
-                $.ajax({
-                    url: '/api/employees/' + employeeId + '/', // Replace with your Django backend API endpoint
-                    type: 'DELETE',
-                    success: function(response) {
-                        // Clear form fields
-                        $('#employeeForm')[0].reset();
-                        // Reset buttons
-                        $('#submitButton').show();
-                        $('#updateButton').hide();
-                        $('#deleteButton').hide();
-                        // Refresh employee list
-                        fetchEmployees();
-                    },
-                    error: function(error) {
-                        console.log('Error deleting employee:', error);
-                    }
-                });
-            });
+        document.getElementById('recentHiresCard').addEventListener('click', function() {
+            // No redirection for recent hires, you may add your URL if needed
+        });
+
+        document.getElementById('totalPoliciesCard').addEventListener('click', function() {
+            // No redirection for total policies, you may add your URL if needed
+        });
+
+        // Update dashboard on page load
+        window.addEventListener('load', function() {
+            updateKeyMetrics();
+            displayRecentActivities();
+            displayEmployeeStatsChart();
         });
     </script>
 </body>

@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        /* Custom styles for the page */
         body {
             font-family: Arial, sans-serif;
             background-color: grey;
@@ -25,7 +24,6 @@
     </style>
 </head>
 <body>
-    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Employee Management System</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,11 +32,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                    </li>
+                    <a class="nav-link" href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="create_employee.html"><i class="fas fa-users"></i> Employees</a>
+                    <a class="nav-link" href="profile.html"><i class="fas fa-users"></i> Employees</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="departments.html"><i class="fas fa-building"></i> Departments</a>
@@ -55,22 +52,16 @@
                 <li class="nav-item">
                     <a class="nav-link" href="payroll.html"><i class="fas fa-money-bill-wave"></i> Payroll Management</a>
                 </li>
-                <!--<li class="nav-item">
-                    <a class="nav-link" href="settings.html"><i class="fas fa-cogs"></i> Settings</a>
-                </li>-->
             </ul>
         </div>
     </nav>
 
-
-    <!-- Main Content -->
     <div class="container">
         <div class="card">
             <div class="card-header">
                 Attendance and Time Tracking
             </div>
             <div class="card-body">
-                <!-- Tabs for different functionalities -->
                 <ul class="nav nav-tabs" id="tabs" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="attendance-tab" data-toggle="tab" href="#attendance" role="tab" aria-controls="attendance" aria-selected="true">Attendance</a>
@@ -82,13 +73,10 @@
                         <a class="nav-link" id="balances-tab" data-toggle="tab" href="#balances" role="tab" aria-controls="balances" aria-selected="false">Time-off Balances</a>
                     </li>
                 </ul>
-                <!-- Tab content -->
                 <div class="tab-content mt-3" id="tabsContent">
-                    <!-- Attendance tab -->
                     <div class="tab-pane fade show active" id="attendance" role="tabpanel" aria-labelledby="attendance-tab">
                         <h5>Employee Attendance</h5>
-                        <!-- Include attendance table or list here -->
-                        <table class="table table-bordered">
+                        <table class="table table-bordered" id="attendanceTable">
                             <thead>
                                 <tr>
                                     <th>Date</th>
@@ -99,48 +87,217 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Sample data rows -->
-                                <tr>
-                                    <td>2024-07-15</td>
-                                    <td>John Doe</td>
-                                    <td>09:00 AM</td>
-                                    <td>05:00 PM</td>
-                                    <td>Present</td>
-                                </tr>
-                                <tr>
-                                    <td>2024-07-15</td>
-                                    <td>Jane Smith</td>
-                                    <td>08:30 AM</td>
-                                    <td>04:30 PM</td>
-                                    <td>Present</td>
-                                </tr>
-                                <!-- Add more rows dynamically or fetch from database -->
+                                <!-- Rows will be populated by JavaScript -->
                             </tbody>
                         </table>
+                        <form id="attendanceForm">
+                            <div class="form-group">
+                                <label for="attendanceDate">Date</label>
+                                <input type="date" class="form-control" id="attendanceDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="attendanceEmployee">Employee</label>
+                                <select class="form-control" id="attendanceEmployee" required>
+                                    <!-- Options will be populated by JavaScript -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="attendanceCheckIn">Check-in Time</label>
+                                <input type="time" class="form-control" id="attendanceCheckIn" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="attendanceCheckOut">Check-out Time</label>
+                                <input type="time" class="form-control" id="attendanceCheckOut" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="attendanceStatus">Status</label>
+                                <input type="text" class="form-control" id="attendanceStatus" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Attendance</button>
+                        </form>
                     </div>
-                    <!-- Leave Requests tab -->
                     <div class="tab-pane fade" id="leave" role="tabpanel" aria-labelledby="leave-tab">
                         <h5>Leave Requests</h5>
-                        <!-- Leave requests management form or table -->
-                        <p>No leave requests at the moment.</p>
-                        <!-- Include form or leave requests list here -->
+                        <div id="leaveRequestsList">
+                            <!-- Leave requests will be populated dynamically -->
+                        </div>
+                        <form id="leaveRequestForm">
+                            <div class="form-group">
+                                <label for="leaveEmployee">Employee</label>
+                                <select class="form-control" id="leaveEmployee" required>
+                                    <!-- Options will be populated by JavaScript -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="leaveType">Leave Type</label>
+                                <input type="text" class="form-control" id="leaveType" placeholder="Enter Leave Type" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="leaveStartDate">Start Date</label>
+                                <input type="date" class="form-control" id="leaveStartDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="leaveEndDate">End Date</label>
+                                <input type="date" class="form-control" id="leaveEndDate" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit Leave Request</button>
+                        </form>
                     </div>
-                    <!-- Time-off Balances tab -->
                     <div class="tab-pane fade" id="balances" role="tabpanel" aria-labelledby="balances-tab">
                         <h5>Time-off Balances</h5>
-                        <!-- Display time-off balances for each employee -->
-                        <p>John Doe - Annual Leave: 10 days remaining, Sick Leave: 5 days remaining</p>
-                        <p>Jane Smith - Annual Leave: 15 days remaining, Sick Leave: 3 days remaining</p>
-                        <!-- Include balance details or table here -->
+                        <div id="timeOffBalances">
+                            <!-- Balances will be populated dynamically -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript dependencies -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            fetchAttendances();
+            fetchLeaveRequests();
+            fetchTimeOffBalances();
+            fetchEmployees();
+
+            function fetchAttendances() {
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/api/attendances/',
+                    method: 'GET',
+                    success: function(data) {
+                        let attendanceTable = $('#attendanceTable tbody');
+                        attendanceTable.empty();
+                        data.forEach(attendance => {
+                            let row = `<tr>
+                                <td>${attendance.date}</td>
+                                <td>${attendance.employee}</td>
+                                <td>${attendance.check_in_time}</td>
+                                <td>${attendance.check_out_time}</td>
+                                <td>${attendance.status}</td>
+                            </tr>`;
+                            attendanceTable.append(row);
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching attendances:', error);
+                    }
+                });
+            }
+
+            function fetchLeaveRequests() {
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/api/leave-requests/',
+                    method: 'GET',
+                    success: function(data) {
+                        let leaveRequestsList = $('#leaveRequestsList');
+                        leaveRequestsList.empty();
+                        data.forEach(request => {
+                            let item = `<div class="card mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-subtitle mb-2 text-muted">${request.employee_name} - ${request.leave_type}</h6>
+                                    <p class="card-text">Start Date: ${request.start_date} | End Date: ${request.end_date}</p>
+                                </div>
+                            </div>`;
+                            leaveRequestsList.append(item);
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching leave requests:', error);
+                    }
+                });
+            }
+
+            function fetchTimeOffBalances() {
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/api/time-off-balances/',
+                    method: 'GET',
+                    success: function(data) {
+                        let timeOffBalances = $('#timeOffBalances');
+                        timeOffBalances.empty();
+                        data.forEach(balance => {
+                            let item = `<p>${balance.employee_name} - ${balance.leave_type}: ${balance.days_remaining} days remaining</p>`;
+                            timeOffBalances.append(item);
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching time-off balances:', error);
+                    }
+                });
+            }
+
+            function fetchEmployees() {
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/api/employees/',
+                    method: 'GET',
+                    success: function(data) {
+                        let employeeSelect = $('#attendanceEmployee, #leaveEmployee');
+                        employeeSelect.empty();
+                        data.forEach(employee => {
+                            let option = `<option value="${employee.id}">${employee.name}</option>`;
+                            employeeSelect.append(option);
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching employees:', error);
+                    }
+                });
+            }
+
+            $('#attendanceForm').on('submit', function(e) {
+                e.preventDefault();
+                let attendanceData = {
+                    date: $('#attendanceDate').val(),
+                    employee: $('#attendanceEmployee').val(),
+                    check_in_time: $('#attendanceCheckIn').val(),
+                    check_out_time: $('#attendanceCheckOut').val(),
+                    status: $('#attendanceStatus').val()
+                };
+
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/api/attendances/',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(attendanceData),
+                    success: function(response) {
+                        console.log('Attendance added successfully:', response);
+                        fetchAttendances();
+                        $('#attendanceForm')[0].reset();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error adding attendance:', error);
+                    }
+                });
+            });
+
+            $('#leaveRequestForm').on('submit', function(e) {
+                e.preventDefault();
+                let leaveRequestData = {
+                    employee: $('#leaveEmployee').val(),
+                    leave_type: $('#leaveType').val(),
+                    start_date: $('#leaveStartDate').val(),
+                    end_date: $('#leaveEndDate').val()
+                };
+
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/api/leave-requests/',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(leaveRequestData),
+                    success: function(response) {
+                        console.log('Leave request added successfully:', response);
+                        fetchLeaveRequests();
+                        $('#leaveRequestForm')[0].reset();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error adding leave request:', error);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

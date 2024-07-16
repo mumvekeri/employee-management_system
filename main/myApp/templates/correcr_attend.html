@@ -9,7 +9,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: grey;
+            background-color: #f8f9fa;
         }
         .container {
             padding: 20px;
@@ -32,19 +32,19 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    <a class="nav-link" href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-users"></i> Employees</a>
+                    <a class="nav-link" href="profile.html"><i class="fas fa-users"></i> Employees</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-building"></i> Departments</a>
+                    <a class="nav-link" href="departments.html"><i class="fas fa-building"></i> Departments</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fas fa-calendar-alt"></i> Calendar</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fas fa-clock"></i> Attendance</a>
+                    <a class="nav-link" href="attendance.html"><i class="fas fa-clock"></i> Attendance</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fas fa-chart-line"></i> Performance Management</a>
@@ -97,7 +97,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="attendanceEmployee">Employee</label>
-                                <input type="text" class="form-control" id="attendanceEmployee" required>
+                                <select class="form-control" id="attendanceEmployee" required>
                                     <!-- Options will be populated by JavaScript -->
                                 </select>
                             </div>
@@ -118,12 +118,36 @@
                     </div>
                     <div class="tab-pane fade" id="leave" role="tabpanel" aria-labelledby="leave-tab">
                         <h5>Leave Requests</h5>
-                        <p>No leave requests at the moment.</p>
+                        <div id="leaveRequestsList">
+                            <!-- Leave requests will be populated dynamically -->
+                        </div>
+                        <form id="leaveRequestForm">
+                            <div class="form-group">
+                                <label for="leaveEmployee">Employee</label>
+                                <select class="form-control" id="leaveEmployee" required>
+                                    <!-- Options will be populated by JavaScript -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="leaveType">Leave Type</label>
+                                <input type="text" class="form-control" id="leaveType" placeholder="Enter Leave Type" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="leaveStartDate">Start Date</label>
+                                <input type="date" class="form-control" id="leaveStartDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="leaveEndDate">End Date</label>
+                                <input type="date" class="form-control" id="leaveEndDate" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit Leave Request</button>
+                        </form>
                     </div>
                     <div class="tab-pane fade" id="balances" role="tabpanel" aria-labelledby="balances-tab">
                         <h5>Time-off Balances</h5>
-                        <p>John Doe - Annual Leave: 10 days remaining, Sick Leave: 5 days remaining</p>
-                        <p>Jane Smith - Annual Leave: 8 days remaining, Sick Leave: 3 days remaining</p>
+                        <div id="timeOffBalances">
+                            <!-- Balances will be populated dynamically -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -136,6 +160,8 @@
     <script>
         $(document).ready(function() {
             fetchAttendances();
+            fetchLeaveRequests();
+            fetchTimeOffBalances();
             fetchEmployees();
 
             function fetchAttendances() {
@@ -162,12 +188,53 @@
                 });
             }
 
+            function fetchLeaveRequests() {
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/api/leave-requests/',
+                    method: 'GET',
+                    success: function(data) {
+                        let leaveRequestsList = $('#leaveRequestsList');
+                        leaveRequestsList.empty();
+                        data.forEach(request => {
+                            let item = `<div class="card mb-3">
+                                <div class="card-body">
+                                    <h6 class="card-subtitle mb-2 text-muted">${request.employee_name} - ${request.leave_type}</h6>
+                                    <p class="card-text">Start Date: ${request.start_date} | End Date: ${request.end_date}</p>
+                                </div>
+                            </div>`;
+                            leaveRequestsList.append(item);
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching leave requests:', error);
+                    }
+                });
+            }
+
+            function fetchTimeOffBalances() {
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/api/time-off-balances/',
+                    method: 'GET',
+                    success: function(data) {
+                        let timeOffBalances = $('#timeOffBalances');
+                        timeOffBalances.empty();
+                        data.forEach(balance => {
+                            let item = `<p>${balance.employee_name} - ${balance.leave_type}: ${balance.days_remaining} days remaining</p>`;
+                            timeOffBalances.append(item);
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching time-off balances:', error);
+                    }
+                });
+            }
+
             function fetchEmployees() {
                 $.ajax({
                     url: 'http://127.0.0.1:8000/api/employees/',
                     method: 'GET',
                     success: function(data) {
-                        let employeeSelect = $('#attendanceEmployee');
+                        let employeeSelect = $('#attendanceEmployee, #leaveEmployee');
                         employeeSelect.empty();
                         data.forEach(employee => {
                             let option = `<option value="${employee.id}">${employee.name}</option>`;
@@ -202,6 +269,31 @@
                     },
                     error: function(xhr, status, error) {
                         console.error('Error adding attendance:', error);
+                    }
+                });
+            });
+
+            $('#leaveRequestForm').on('submit', function(e) {
+                e.preventDefault();
+                let leaveRequestData = {
+                    employee: $('#leaveEmployee').val(),
+                    leave_type: $('#leaveType').val(),
+                    start_date: $('#leaveStartDate').val(),
+                    end_date: $('#leaveEndDate').val()
+                };
+
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/api/leave-requests/',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(leaveRequestData),
+                    success: function(response) {
+                        console.log('Leave request added successfully:', response);
+                        fetchLeaveRequests();
+                        $('#leaveRequestForm')[0].reset();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error adding leave request:', error);
                     }
                 });
             });

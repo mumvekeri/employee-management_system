@@ -34,9 +34,8 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                    </li>
+                    <a class="nav-link" href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link" href="create_employee.html"><i class="fas fa-users"></i> Employees</a>
                 </li>
@@ -50,7 +49,7 @@
                     <a class="nav-link" href="attendance.html"><i class="fas fa-clock"></i> Attendance</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="perfomance.html"><i class="fas fa-chart-line"></i> Performance Management</a>
+                    <a class="nav-link" href="performance.html"><i class="fas fa-chart-line"></i> Performance Management</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="payroll.html"><i class="fas fa-money-bill-wave"></i> Payroll Management</a>
@@ -61,7 +60,6 @@
             </ul>
         </div>
     </nav>
-
 
     <!-- Main Content -->
     <div class="container">
@@ -93,32 +91,75 @@
                     <!-- Payroll Processing tab -->
                     <div class="tab-pane fade show active" id="processing" role="tabpanel" aria-labelledby="processing-tab">
                         <h5>Payroll Processing</h5>
-                        <!-- Include payroll processing management here -->
-                        <p>Process payroll for all employees.</p>
+                        <form id="payrollProcessingForm">
+                            <div class="form-group">
+                                <label for="month">Month</label>
+                                <select class="form-control" id="month" required>
+                                    <option value="">Select Month</option>
+                                    <option value="January">January</option>
+                                    <option value="February">February</option>
+                                    <option value="March">March</option>
+                                    <!-- Add more months as needed -->
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Process Payroll</button>
+                        </form>
                     </div>
                     <!-- Salary Calculations tab -->
                     <div class="tab-pane fade" id="calculations" role="tabpanel" aria-labelledby="calculations-tab">
                         <h5>Salary Calculations</h5>
-                        <!-- Include salary calculations management here -->
-                        <p>Calculate salaries based on employee details.</p>
+                        <form id="salaryCalculationsForm">
+                            <div class="form-group">
+                                <label for="employeeId">Employee ID</label>
+                                <input type="text" class="form-control" id="employeeId" placeholder="Enter Employee ID" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Calculate Salary</button>
+                        </form>
                     </div>
                     <!-- Deductions tab -->
                     <div class="tab-pane fade" id="deductions" role="tabpanel" aria-labelledby="deductions-tab">
                         <h5>Deductions</h5>
-                        <!-- Include deductions management here -->
-                        <p>Manage deductions from employee salaries.</p>
+                        <form id="deductionsForm">
+                            <div class="form-group">
+                                <label for="deductionType">Deduction Type</label>
+                                <input type="text" class="form-control" id="deductionType" placeholder="Enter Deduction Type" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="deductionAmount">Deduction Amount</label>
+                                <input type="number" class="form-control" id="deductionAmount" placeholder="Enter Deduction Amount" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Deduction</button>
+                        </form>
                     </div>
                     <!-- Bonuses tab -->
                     <div class="tab-pane fade" id="bonuses" role="tabpanel" aria-labelledby="bonuses-tab">
                         <h5>Bonuses</h5>
-                        <!-- Include bonuses management here -->
-                        <p>Allocate bonuses to deserving employees.</p>
+                        <form id="bonusesForm">
+                            <div class="form-group">
+                                <label for="employeeIdBonus">Employee ID</label>
+                                <input type="text" class="form-control" id="employeeIdBonus" placeholder="Enter Employee ID" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="bonusAmount">Bonus Amount</label>
+                                <input type="number" class="form-control" id="bonusAmount" placeholder="Enter Bonus Amount" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Bonus</button>
+                        </form>
                     </div>
                     <!-- Tax Information tab -->
                     <div class="tab-pane fade" id="taxes" role="tabpanel" aria-labelledby="taxes-tab">
                         <h5>Tax Information</h5>
-                        <!-- Display tax-related information -->
-                        <p>Tax details and information for payroll.</p>
+                        <form id="taxInformationForm">
+                            <div class="form-group">
+                                <label for="employeeIdTax">Employee ID</label>
+                                <input type="text" class="form-control" id="employeeIdTax" placeholder="Enter Employee ID" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="taxDetails">Tax Details</label>
+                                <textarea class="form-control" id="taxDetails" placeholder="Enter Tax Details" rows="3" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Tax Information</button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -129,5 +170,33 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- JavaScript for handling form submissions -->
+    <script>
+        document.getElementById('payrollProcessingForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Payroll processed for ' + document.getElementById('month').value);
+        });
+
+        document.getElementById('salaryCalculationsForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Salary calculated for Employee ID ' + document.getElementById('employeeId').value);
+        });
+
+        document.getElementById('deductionsForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Deduction of ' + document.getElementById('deductionAmount').value + ' added for type ' + document.getElementById('deductionType').value);
+        });
+
+        document.getElementById('bonusesForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Bonus of ' + document.getElementById('bonusAmount').value + ' added for Employee ID ' + document.getElementById('employeeIdBonus').value);
+        });
+
+        document.getElementById('taxInformationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Tax information saved for Employee ID ' + document.getElementById('employeeIdTax').value);
+        });
+    </script>
 </body>
 </html>

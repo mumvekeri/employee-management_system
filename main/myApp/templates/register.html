@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Management System - Login</title>
+    <title>Employee Management System - Register</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link href="../static/css/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -16,28 +16,24 @@
                 <div class="col-md-6">
                     <div class="card mt-5">
                         <div class="card-header text-center">
-                            <h3>Login</h3>
+                            <h3>Register</h3>
                         </div>
                         <div class="card-body">
-                            <form id="loginForm">
+                            <form id="registerForm">
                                 <div class="form-group">
-                                    <label for="username"><i class="fas fa-user"></i> Username</label>
-                                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
+                                    <label for="email"><i class="fas fa-envelope"></i> Email address</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter email" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="password"><i class="fas fa-lock"></i> Password</label>
-                                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required minlength="6">
+                                    <small id="passwordHelp" class="form-text text-muted">Password must be at least 6 characters long.</small>
                                 </div>
-                                <div class="form-group form-check">
-                                    <input type="checkbox" class="form-check-input" id="rememberMe">
-                                    <label class="form-check-label" for="rememberMe">Remember Me</label>
-                                </div>
-                                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                                <button type="submit" class="btn btn-primary btn-block">Register</button>
                             </form>
                         </div>
                         <div class="card-footer text-center">
-                            <a href="#" class="text-muted">Forgot Password?</a>
-                            <br>
+                            <a href="login.html" class="text-muted">Already have an account? Login here</a>
                         </div>
                     </div>
                 </div>
@@ -56,12 +52,12 @@
 
     <!-- Firebase scripts -->
     <script type="module">
-        // Import the functions you need from the SDKs you need
+        // Import Firebase SDKs
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-analytics.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
-      
-        // Your web app's Firebase configuration
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
+
+        // Your Firebase configuration
         const firebaseConfig = {
             apiKey: "AIzaSyBebOTrvpjIB2Tk26PmbsNYIng8U2Zs7aA",
             authDomain: "login-6d327.firebaseapp.com",
@@ -71,30 +67,41 @@
             appId: "1:977429992325:web:f73862100dc00b53172aec",
             measurementId: "G-E6X49501QX"
           };
-      
+
         // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const auth = getAuth(app);
 
-        // Form submission handling
-        const loginForm = document.getElementById('loginForm');
-        loginForm.addEventListener('submit', async (event) => {
+        // Register form submission handler
+        const registerForm = document.getElementById('registerForm');
+        registerForm.addEventListener('submit', function(event) {
             event.preventDefault();
-            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            try {
-                const userCredential = await signInWithEmailAndPassword(auth, username, password);
-                // Signed in successfully, redirect or handle logged in user
-                console.log('Logged in user:', userCredential.user);
-                // Example: redirect to dashboard
-                window.location.href = '/dashboard.html';
-            } catch (error) {
-                // Handle errors here
-                console.error('Login error:', error.message);
-                alert('Login failed. Please check your credentials and try again.');
-            }
+            // Example: Creating a user with email and password
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    // User registered successfully
+                    const user = userCredential.user;
+                    console.log('User registered:', user);
+                    // You can redirect or perform other actions here upon successful registration
+                    alert('Registration successful. Please log in.');
+                    // Redirect to login page after successful registration (optional)
+                    window.location.href = 'login.html';
+                })
+                .catch((error) => {
+                    // Handle errors
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    if (errorCode === 'auth/weak-password') {
+                        alert('Password should be at least 6 characters long.');
+                    } else {
+                        console.error('Registration error:', errorCode, errorMessage);
+                        alert('Registration failed. Please try again.');
+                    }
+                });
         });
     </script>
 </body>

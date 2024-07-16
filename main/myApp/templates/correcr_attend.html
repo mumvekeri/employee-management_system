@@ -59,27 +59,6 @@
     <div class="container">
         <div class="card">
             <div class="card-header">
-                Employee List
-            </div>
-            <div class="card-body">
-                <table class="table table-bordered" id="employeeTable">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Position</th>
-                            <th>Date Joined</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Rows will be populated by JavaScript -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header">
                 Attendance and Time Tracking
             </div>
             <div class="card-body">
@@ -144,44 +123,20 @@
                     <div class="tab-pane fade" id="balances" role="tabpanel" aria-labelledby="balances-tab">
                         <h5>Time-off Balances</h5>
                         <p>John Doe - Annual Leave: 10 days remaining, Sick Leave: 5 days remaining</p>
-                        <p>Jane Smith - Annual Leave: 8 days remaining, Sick Leave: 2 days remaining</p>
+                        <p>Jane Smith - Annual Leave: 8 days remaining, Sick Leave: 3 days remaining</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
-            function fetchEmployees() {
-                $.ajax({
-                    url: 'http://127.0.0.1:8000/api/employees/',
-                    method: 'GET',
-                    success: function(data) {
-                        let employeeTable = $('#employeeTable tbody');
-                        employeeTable.empty();
-                        data.forEach(employee => {
-                            let row = `<tr>
-                                <td>${employee.id}</td>
-                                <td>${employee.name}</td>
-                                <td>${employee.position}</td>
-                                <td>${employee.date_joined}</td>
-                            </tr>`;
-                            employeeTable.append(row);
-                        });
-
-                        let employeeSelect = $('#attendanceEmployee');
-                        employeeSelect.empty();
-                        data.forEach(employee => {
-                            let option = `<option value="${employee.id}">${employee.name}</option>`;
-                            employeeSelect.append(option);
-                        });
-                    }
-                });
-            }
+            fetchAttendances();
+            fetchEmployees();
 
             function fetchAttendances() {
                 $.ajax({
@@ -199,6 +154,21 @@
                                 <td>${attendance.status}</td>
                             </tr>`;
                             attendanceTable.append(row);
+                        });
+                    }
+                });
+            }
+
+            function fetchEmployees() {
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/api/employees/',
+                    method: 'GET',
+                    success: function(data) {
+                        let employeeSelect = $('#attendanceEmployee');
+                        employeeSelect.empty();
+                        data.forEach(employee => {
+                            let option = `<option value="${employee.id}">${employee.name}</option>`;
+                            employeeSelect.append(option);
                         });
                     }
                 });
@@ -225,9 +195,6 @@
                     }
                 });
             });
-
-            fetchEmployees();
-            fetchAttendances();
         });
     </script>
 </body>

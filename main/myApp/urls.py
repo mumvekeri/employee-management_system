@@ -9,4 +9,4 @@ urlpatterns = [
     path('', dashboard, name='dashboard')
     path('', prof, name='prof')
     path('', departments, name='departments')
-]
+    ]

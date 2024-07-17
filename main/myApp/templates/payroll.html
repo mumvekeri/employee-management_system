@@ -54,9 +54,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="payroll.html"><i class="fas fa-money-bill-wave"></i> Payroll Management</a>
                 </li>
-                <!--<li class="nav-item">
-                    <a class="nav-link" href="settings.html"><i class="fas fa-cogs"></i> Settings</a>
-                </li>-->
             </ul>
         </div>
     </nav>
@@ -83,6 +80,9 @@
                         <a class="nav-link" id="bonuses-tab" data-toggle="tab" href="#bonuses" role="tab" aria-controls="bonuses" aria-selected="false">Bonuses</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" id="fringe-benefits-tab" data-toggle="tab" href="#fringe-benefits" role="tab" aria-controls="fringe-benefits" aria-selected="false">Fringe Benefits</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" id="taxes-tab" data-toggle="tab" href="#taxes" role="tab" aria-controls="taxes" aria-selected="false">Tax Information</a>
                     </li>
                 </ul>
@@ -99,8 +99,28 @@
                                     <option value="January">January</option>
                                     <option value="February">February</option>
                                     <option value="March">March</option>
-                                    <!-- Add more months as needed -->
+                                    <option value="April">April</option>
+                                    <option value="May">May</option>
+                                    <option value="June">June</option>
+                                    <option value="July">July</option>
+                                    <option value="August">August</option>
+                                    <option value="September">September</option>
+                                    <option value="October">October</option>
+                                    <option value="November">November</option>
+                                    <option value="December">December</option>
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="employeeIdProcessing">Employee ID</label>
+                                <input type="text" class="form-control" id="employeeIdProcessing" placeholder="Enter Employee ID" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="netPayProcessing">Net Pay (after deductions and fringe benefits)</label>
+                                <input type="number" class="form-control" id="netPayProcessing" placeholder="Net Pay" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label>Calculation Formulas</label>
+                                <p id="calculationFormulas"></p>
                             </div>
                             <button type="submit" class="btn btn-primary">Process Payroll</button>
                         </form>
@@ -112,6 +132,14 @@
                             <div class="form-group">
                                 <label for="employeeId">Employee ID</label>
                                 <input type="text" class="form-control" id="employeeId" placeholder="Enter Employee ID" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="salaryAmount">Salary Amount</label>
+                                <input type="number" class="form-control" id="salaryAmount" placeholder="Enter Salary Amount" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="deductionsAmount">Deductions Amount</label>
+                                <input type="number" class="form-control" id="deductionsAmount" placeholder="Enter Deductions Amount" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Calculate Salary</button>
                         </form>
@@ -128,6 +156,10 @@
                                 <label for="deductionAmount">Deduction Amount</label>
                                 <input type="number" class="form-control" id="deductionAmount" placeholder="Enter Deduction Amount" required>
                             </div>
+                            <div class="form-group">
+                                <label for="deductionDate">Date</label>
+                                <input type="date" class="form-control" id="deductionDate" required>
+                            </div>
                             <button type="submit" class="btn btn-primary">Add Deduction</button>
                         </form>
                     </div>
@@ -143,7 +175,34 @@
                                 <label for="bonusAmount">Bonus Amount</label>
                                 <input type="number" class="form-control" id="bonusAmount" placeholder="Enter Bonus Amount" required>
                             </div>
+                            <div class="form-group">
+                                <label for="bonusDate">Date</label>
+                                <input type="date" class="form-control" id="bonusDate" required>
+                            </div>
                             <button type="submit" class="btn btn-primary">Add Bonus</button>
+                        </form>
+                    </div>
+                    <!-- Fringe Benefits tab -->
+                    <div class="tab-pane fade" id="fringe-benefits" role="tabpanel" aria-labelledby="fringe-benefits-tab">
+                        <h5>Fringe Benefits</h5>
+                        <form id="fringeBenefitsForm">
+                            <div class="form-group">
+                                <label for="employeeIdFringe">Employee ID</label>
+                                <input type="text" class="form-control" id="employeeIdFringe" placeholder="Enter Employee ID" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="fringeBenefitType">Benefit Type</label>
+                                <input type="text" class="form-control" id="fringeBenefitType" placeholder="Enter Benefit Type" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="fringeBenefitAmount">Benefit Amount</label>
+                                <input type="number" class="form-control" id="fringeBenefitAmount" placeholder="Enter Benefit Amount" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="fringeBenefitDate">Date</label>
+                                <input type="date" class="form-control" id="fringeBenefitDate" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Fringe Benefit</button>
                         </form>
                     </div>
                     <!-- Tax Information tab -->
@@ -173,24 +232,61 @@
 
     <!-- JavaScript for handling form submissions -->
     <script>
-        document.getElementById('payrollProcessingForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            alert('Payroll processed for ' + document.getElementById('month').value);
-        });
+        let fringeBenefits = [];
+        let deductions = [];
 
         document.getElementById('salaryCalculationsForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            alert('Salary calculated for Employee ID ' + document.getElementById('employeeId').value);
+            const salaryAmount = parseFloat(document.getElementById('salaryAmount').value);
+            const deductionsAmount = deductions.reduce((total, deduction) => total + deduction.amount, 0);
+            const fringeBenefitsAmount = fringeBenefits.reduce((total, benefit) => total + benefit.amount, 0);
+            const netPay = salaryAmount - deductionsAmount + fringeBenefitsAmount;
+            document.getElementById('netPayProcessing').value = netPay.toFixed(2);
+
+            const formulas = `
+                Salary Amount: ${salaryAmount.toFixed(2)} <br>
+                Total Deductions: ${deductionsAmount.toFixed(2)} <br>
+                Total Fringe Benefits: ${fringeBenefitsAmount.toFixed(2)} <br>
+                Net Pay: Salary Amount - Total Deductions + Total Fringe Benefits <br>
+                Net Pay: ${salaryAmount.toFixed(2)} - ${deductionsAmount.toFixed(2)} + ${fringeBenefitsAmount.toFixed(2)} = ${netPay.toFixed(2)}
+            `;
+            document.getElementById('calculationFormulas').innerHTML = formulas;
+
+            alert('Net pay calculated for Employee ID ' + document.getElementById('employeeId').value + ' with net pay ' + netPay.toFixed(2));
         });
 
         document.getElementById('deductionsForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            alert('Deduction of ' + document.getElementById('deductionAmount').value + ' added for type ' + document.getElementById('deductionType').value);
+            const deduction = {
+                type: document.getElementById('deductionType').value,
+                amount: parseFloat(document.getElementById('deductionAmount').value),
+                date: document.getElementById('deductionDate').value
+            };
+            deductions.push(deduction);
+            alert('Deduction of ' + deduction.amount + ' added for type ' + deduction.type + ' on date ' + deduction.date);
+        });
+
+        document.getElementById('fringeBenefitsForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const benefit = {
+                type: document.getElementById('fringeBenefitType').value,
+                amount: parseFloat(document.getElementById('fringeBenefitAmount').value),
+                date: document.getElementById('fringeBenefitDate').value
+            };
+            fringeBenefits.push(benefit);
+            alert('Fringe benefit of ' + benefit.amount + ' added for type ' + benefit.type + ' on date ' + benefit.date);
+        });
+
+        document.getElementById('payrollProcessingForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const employeeId = document.getElementById('employeeIdProcessing').value;
+            const netPay = document.getElementById('netPayProcessing').value;
+            alert('Payroll processed for Employee ID ' + employeeId + ' with net pay ' + netPay);
         });
 
         document.getElementById('bonusesForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            alert('Bonus of ' + document.getElementById('bonusAmount').value + ' added for Employee ID ' + document.getElementById('employeeIdBonus').value);
+            alert('Bonus of ' + document.getElementById('bonusAmount').value + ' added for Employee ID ' + document.getElementById('employeeIdBonus').value + ' on date ' + document.getElementById('bonusDate').value);
         });
 
         document.getElementById('taxInformationForm').addEventListener('submit', function(event) {

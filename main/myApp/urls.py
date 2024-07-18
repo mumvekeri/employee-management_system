@@ -9,4 +9,5 @@ urlpatterns = [
     path('', dashboard, name='dashboard'),
     path('', prof, name='prof'),
     path('', departments, name='departments')
+    path('',correcr_attend, name='correcr_attend.html')
     ]

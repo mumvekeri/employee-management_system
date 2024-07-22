@@ -1,10 +1,5 @@
 from django.shortcuts import render
-<<<<<<< HEAD
-from django.utils.translation import gettext as _
-
-=======
 from .models import Employee
->>>>>>> af2ab45ffce76ec136c16655887f2a3c8998616b
 
 
 def register(request):
@@ -31,12 +26,10 @@ def prof(request):
     return render(request, 'prof.html', {}) 
 def departments(request):
     return render(request, 'departments.html', {})
-<<<<<<< HEAD
 def correct(request):
     return render(request, 'correct.html', {})
-def correct(request):
+def perfomance(request):
     return render(request, 'perfomance.html', {})
-=======
-def correcr_attend(request):
-    return render(request, 'correcr_attend', {})
->>>>>>> af2ab45ffce76ec136c16655887f2a3c8998616b
+def payroll(request):
+    return render(request, 'payroll.html', {})
+

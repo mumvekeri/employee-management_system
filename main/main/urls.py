@@ -16,11 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-<<<<<<< HEAD
-from myApp.views import register, login, dashboard, prof, departments, correct
-=======
-from myApp.views import register, login, dashboard, prof, departments, correcr_attend
->>>>>>> af2ab45ffce76ec136c16655887f2a3c8998616b
+from myApp.views import register, login, dashboard, prof, departments, correct, perfomance, payroll
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,10 +25,7 @@ urlpatterns = [
     path('dashboard/', dashboard, name='dashboard'),
     path('prof/', prof, name='prof'),
     path('departments/', departments, name='departments'),
-<<<<<<< HEAD
-    path('correct/', correct, name='correct')
-    
-=======
-    path('correcr_attend/', correcr_attend, name='correcr_atttend')
->>>>>>> af2ab45ffce76ec136c16655887f2a3c8998616b
+    path('correct/', correct, name='correct'),
+    path('perfomance/', perfomance, name='perfomance'),
+    path('payroll/', payroll, name='payroll')
 ]

@@ -31,5 +31,29 @@ def correct(request):
 def perfomance(request):
     return render(request, 'perfomance.html', {})
 def payroll(request):
+    if request.method == 'POST':
+        employee_id = request.POST['employeeIdProcessing']
+        month = request.POST['month']
+        gross_pay = float(request.POST['grossPay'])
+        total_deductions = float(request.POST['totalDeductions'])
+        total_bonuses = float(request.POST['totalBonuses'])
+        total_fringe_benefits = float(request.POST['totalFringeBenefits'])
+        net_pay = float(request.POST['netPayProcessing'])
+
+        employee = Employee.objects.get(id=employee_id)
+
+        payroll_entry = Payroll(
+            employee=employee,
+            month=month,
+            gross_pay=gross_pay,
+            total_deductions=total_deductions,
+            total_bonuses=total_bonuses,
+            total_fringe_benefits=total_fringe_benefits,
+            net_pay=net_pay
+        )
+        payroll_entry.save()
+        
+
+        return JsonResponse({'message': 'Payroll processed successfully.'})
     return render(request, 'payroll.html', {})
 

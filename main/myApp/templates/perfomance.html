@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        /* Custom styles for the page */
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
@@ -21,6 +20,38 @@
         .card-header {
             background-color: #007bff;
             color: #fff;
+        }
+        .rating {
+            display: flex;
+            direction: row-reverse;
+            font-size: 2em;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+            position: relative;
+        }
+        .rating input {
+            display: none;
+        }
+        .rating label {
+            cursor: pointer;
+            color: #ccc;
+        }
+        .rating input:checked ~ label {
+            color: #f5b301;
+        }
+        .rating input:checked ~ label ~ label {
+            color: #ccc;
+        }
+        .rating label:hover,
+        .rating label:hover ~ label {
+            color: #f5b301;
+        }
+        .toast {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1080;
         }
     </style>
 </head>
@@ -41,28 +72,25 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'departments' %}"><i class="fas fa-building"></i> Departments</a>
                 </li>
-            
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'correct' %}"><i class="fas fa-clock"></i> Attendance</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'perfomance' %}"><i class="fas fa-chart-line"></i> Performance Management</a>
+                    <a class="nav-link" href="{% url 'perfomance' %}"><i class="fas fa-chart-line"></i> Performance</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'payroll' %}"><i class="fas fa-money-bill-wave"></i> Payroll Management</a>
+                    <a class="nav-link" href="{% url 'payroll' %}"><i class="fas fa-money-bill-wave"></i> Payroll</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <!-- Main Content -->
     <div class="container">
         <div class="card">
             <div class="card-header">
                 Performance Management
             </div>
             <div class="card-body">
-                <!-- Tabs for different functionalities -->
                 <ul class="nav nav-tabs" id="tabs" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="reviews-tab" data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="true">Performance Reviews</a>
@@ -77,7 +105,6 @@
                         <a class="nav-link" id="history-tab" data-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">Performance History</a>
                     </li>
                 </ul>
-                <!-- Tab content -->
                 <div class="tab-content mt-3" id="tabsContent">
                     <!-- Performance Reviews tab -->
                     <div class="tab-pane fade show active" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
@@ -85,19 +112,24 @@
                         <form id="reviewsForm">
                             <div class="form-group">
                                 <label for="employeeName">Employee Name</label>
-                                <input type="text" class="form-control" id="employeeName" placeholder="Enter employee name">
+                                <input type="text" class="form-control" id="employeeName" placeholder="Enter employee name" required>
                             </div>
                             <div class="form-group">
                                 <label for="reviewDate">Review Date</label>
-                                <input type="date" class="form-control" id="reviewDate">
+                                <input type="date" class="form-control" id="reviewDate" required>
                             </div>
                             <div class="form-group">
                                 <label for="reviewComments">Review Comments</label>
-                                <textarea class="form-control" id="reviewComments" rows="3" placeholder="Enter review comments"></textarea>
+                                <textarea class="form-control" id="reviewComments" rows="3" placeholder="Enter review comments" required></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary">Submit Review</button>
                         </form>
-                        <div id="reviewsList" class="mt-3"></div>
+                        <div id="reviewsList" class="mt-3">
+                            <h5>Reviews List</h5>
+                            <div class="card">
+                                <ul class="list-group list-group-flush" id="reviewsListGroup"></ul>
+                            </div>
+                        </div>
                     </div>
                     <!-- Goal Setting tab -->
                     <div class="tab-pane fade" id="goals" role="tabpanel" aria-labelledby="goals-tab">
@@ -105,19 +137,24 @@
                         <form id="goalsForm">
                             <div class="form-group">
                                 <label for="goalTitle">Goal Title</label>
-                                <input type="text" class="form-control" id="goalTitle" placeholder="Enter goal title">
+                                <input type="text" class="form-control" id="goalTitle" placeholder="Enter goal title" required>
                             </div>
                             <div class="form-group">
                                 <label for="goalDescription">Goal Description</label>
-                                <textarea class="form-control" id="goalDescription" rows="3" placeholder="Enter goal description"></textarea>
+                                <textarea class="form-control" id="goalDescription" rows="3" placeholder="Enter goal description" required></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="goalDeadline">Goal Deadline</label>
-                                <input type="date" class="form-control" id="goalDeadline">
+                                <input type="date" class="form-control" id="goalDeadline" required>
                             </div>
                             <button type="submit" class="btn btn-primary">Set Goal</button>
                         </form>
-                        <div id="goalsList" class="mt-3"></div>
+                        <div id="goalsList" class="mt-3">
+                            <h5>Goals List</h5>
+                            <div class="card">
+                                <ul class="list-group list-group-flush" id="goalsListGroup"></ul>
+                            </div>
+                        </div>
                     </div>
                     <!-- Feedback Collection tab -->
                     <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
@@ -125,93 +162,213 @@
                         <form id="feedbackForm">
                             <div class="form-group">
                                 <label for="feedbackFrom">Feedback From</label>
-                                <input type="text" class="form-control" id="feedbackFrom" placeholder="Enter your name">
+                                <input type="text" class="form-control" id="feedbackFrom" placeholder="Enter your name" required>
                             </div>
                             <div class="form-group">
                                 <label for="feedbackTo">Feedback To</label>
-                                <input type="text" class="form-control" id="feedbackTo" placeholder="Enter employee name">
+                                <input type="text" class="form-control" id="feedbackTo" placeholder="Enter employee name" required>
                             </div>
                             <div class="form-group">
                                 <label for="feedbackComments">Feedback Comments</label>
-                                <textarea class="form-control" id="feedbackComments" rows="3" placeholder="Enter feedback comments"></textarea>
+                                <textarea class="form-control" id="feedbackComments" rows="3" placeholder="Enter feedback comments" required></textarea>
                             </div>
                             <button type="submit" class="btn btn-primary">Submit Feedback</button>
                         </form>
-                        <div id="feedbackList" class="mt-3"></div>
+                        <div id="feedbackList" class="mt-3">
+                            <h5>Feedback List</h5>
+                            <div class="card">
+                                <ul class="list-group list-group-flush" id="feedbackListGroup"></ul>
+                            </div>
+                        </div>
                     </div>
                     <!-- Performance History tab -->
                     <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
                         <h5>Performance History</h5>
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Employee Name</th>
-                                    <th>Review Date</th>
-                                    <th>Rating</th>
-                                    <th>Comments</th>
-                                </tr>
-                            </thead>
-                            <tbody id="historyTableBody">
-                                <!-- Example data -->
-                                <tr>
-                                    <td>John Doe</td>
-                                    <td>2023-01-15</td>
-                                    <td>4.5</td>
-                                    <td>Excellent performance, exceeded expectations.</td>
-                                </tr>
-                                <tr>
-                                    <td>Jane Smith</td>
-                                    <td>2023-02-20</td>
-                                    <td>3.8</td>
-                                    <td>Good performance, met most expectations.</td>
-                                </tr>
-                                <!-- Add more performance history records as needed -->
-                            </tbody>
-                        </table>
+                        <form id="historyForm">
+                            <div class="form-group">
+                                <label for="historyEmployeeName">Employee Name</label>
+                                <input type="text" class="form-control" id="historyEmployeeName" placeholder="Enter employee name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="historyDate">Date</label>
+                                <input type="date" class="form-control" id="historyDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="historyComments">Comments</label>
+                                <textarea class="form-control" id="historyComments" rows="3" placeholder="Enter comments" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="historyRating">Performance Rating</label>
+                                <div class="rating">
+                                    <input type="radio" id="star5" name="rating" value="5" required>
+                                    <label for="star5" title="5 stars">☆</label>
+                                    <input type="radio" id="star4" name="rating" value="4">
+                                    <label for="star4" title="4 stars">☆</label>
+                                    <input type="radio" id="star3" name="rating" value="3">
+                                    <label for="star3" title="3 stars">☆</label>
+                                    <input type="radio" id="star2" name="rating" value="2">
+                                    <label for="star2" title="2 stars">☆</label>
+                                    <input type="radio" id="star1" name="rating" value="1">
+                                    <label for="star1" title="1 star">☆</label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Add Performance History</button>
+                        </form>
+                        <div id="historyList" class="mt-3">
+                            <h5>Performance History List</h5>
+                            <div class="card">
+                                <ul class="list-group list-group-flush" id="historyListGroup"></ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- JavaScript dependencies -->
+    <!-- Toast notifications -->
+    <div id="successToast" class="toast bg-success text-white" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body">
+            <i class="fas fa-check-circle"></i> Submitted successfully!
+        </div>
+    </div>
+    <div id="errorToast" class="toast bg-danger text-white" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body">
+            <i class="fas fa-exclamation-circle"></i> Submission failed!
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Handle Performance Reviews form submission
-            document.getElementById('reviewsForm').addEventListener('submit', function (event) {
-                event.preventDefault();
-                const employeeName = document.getElementById('employeeName').value;
-                const reviewDate = document.getElementById('reviewDate').value;
-                const reviewComments = document.getElementById('reviewComments').value;
-                const reviewEntry = `<p><strong>${employeeName}</strong> (${reviewDate}): ${reviewComments}</p>`;
-                document.getElementById('reviewsList').innerHTML += reviewEntry;
-                this.reset();
-            });
+        function showToast(id) {
+            var toastEl = document.getElementById(id);
+            var toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
 
-            // Handle Goal Setting form submission
-            document.getElementById('goalsForm').addEventListener('submit', function (event) {
-                event.preventDefault();
-                const goalTitle = document.getElementById('goalTitle').value;
-                const goalDescription = document.getElementById('goalDescription').value;
-                const goalDeadline = document.getElementById('goalDeadline').value;
-                const goalEntry = `<p><strong>${goalTitle}</strong> (Deadline: ${goalDeadline}): ${goalDescription}</p>`;
-                document.getElementById('goalsList').innerHTML += goalEntry;
-                this.reset();
-            });
+        document.getElementById('reviewsForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let employeeName = document.getElementById('employeeName').value;
+            let reviewDate = document.getElementById('reviewDate').value;
+            let reviewComments = document.getElementById('reviewComments').value;
+            
+            let reviews = JSON.parse(localStorage.getItem('performanceReviews') || '[]');
+            reviews.push({ employeeName, reviewDate, reviewComments });
+            localStorage.setItem('performanceReviews', JSON.stringify(reviews));
+            
+            document.getElementById('reviewsForm').reset();
+            loadReviews();
+            showToast('successToast');
+        });
 
-            // Handle Feedback Collection form submission
-            document.getElementById('feedbackForm').addEventListener('submit', function (event) {
-                event.preventDefault();
-                const feedbackFrom = document.getElementById('feedbackFrom').value;
-                const feedbackTo = document.getElementById('feedbackTo').value;
-                const feedbackComments = document.getElementById('feedbackComments').value;
-                const feedbackEntry = `<p><strong>From: ${feedbackFrom}</strong> To: ${feedbackTo} - ${feedbackComments}</p>`;
-                document.getElementById('feedbackList').innerHTML += feedbackEntry;
-                this.reset();
+        document.getElementById('goalsForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let goalTitle = document.getElementById('goalTitle').value;
+            let goalDescription = document.getElementById('goalDescription').value;
+            let goalDeadline = document.getElementById('goalDeadline').value;
+            
+            let goals = JSON.parse(localStorage.getItem('goals') || '[]');
+            goals.push({ goalTitle, goalDescription, goalDeadline });
+            localStorage.setItem('goals', JSON.stringify(goals));
+            
+            document.getElementById('goalsForm').reset();
+            loadGoals();
+            showToast('successToast');
+        });
+
+        document.getElementById('feedbackForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let feedbackFrom = document.getElementById('feedbackFrom').value;
+            let feedbackTo = document.getElementById('feedbackTo').value;
+            let feedbackComments = document.getElementById('feedbackComments').value;
+            
+            let feedbacks = JSON.parse(localStorage.getItem('feedbacks') || '[]');
+            feedbacks.push({ feedbackFrom, feedbackTo, feedbackComments });
+            localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
+            
+            document.getElementById('feedbackForm').reset();
+            loadFeedbacks();
+            showToast('successToast');
+        });
+
+        document.getElementById('historyForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let historyEmployeeName = document.getElementById('historyEmployeeName').value;
+            let historyDate = document.getElementById('historyDate').value;
+            let historyComments = document.getElementById('historyComments').value;
+            let historyRating = document.querySelector('input[name="rating"]:checked')?.value;
+            
+            if (!historyRating) {
+                alert('Please select a rating.');
+                return;
+            }
+            
+            let histories = JSON.parse(localStorage.getItem('performanceHistories') || '[]');
+            histories.push({ historyEmployeeName, historyDate, historyComments, historyRating });
+            localStorage.setItem('performanceHistories', JSON.stringify(histories));
+            
+            document.getElementById('historyForm').reset();
+            loadHistories();
+            showToast('successToast');
+        });
+
+        function loadReviews() {
+            let reviews = JSON.parse(localStorage.getItem('performanceReviews') || '[]');
+            let reviewsListGroup = document.getElementById('reviewsListGroup');
+            reviewsListGroup.innerHTML = '';
+            reviews.forEach(review => {
+                let li = document.createElement('li');
+                li.classList.add('list-group-item');
+                li.textContent = `${review.employeeName} (${review.reviewDate}): ${review.reviewComments}`;
+                reviewsListGroup.appendChild(li);
             });
+        }
+
+        function loadGoals() {
+            let goals = JSON.parse(localStorage.getItem('goals') || '[]');
+            let goalsListGroup = document.getElementById('goalsListGroup');
+            goalsListGroup.innerHTML = '';
+            goals.forEach(goal => {
+                let li = document.createElement('li');
+                li.classList.add('list-group-item');
+                li.textContent = `${goal.goalTitle} (Deadline: ${goal.goalDeadline}): ${goal.goalDescription}`;
+                goalsListGroup.appendChild(li);
+            });
+        }
+
+        function loadFeedbacks() {
+            let feedbacks = JSON.parse(localStorage.getItem('feedbacks') || '[]');
+            let feedbackListGroup = document.getElementById('feedbackListGroup');
+            feedbackListGroup.innerHTML = '';
+            feedbacks.forEach(feedback => {
+                let li = document.createElement('li');
+                li.classList.add('list-group-item');
+                li.textContent = `${feedback.feedbackFrom} -> ${feedback.feedbackTo}: ${feedback.feedbackComments}`;
+                feedbackListGroup.appendChild(li);
+            });
+        }
+
+        function loadHistories() {
+            let histories = JSON.parse(localStorage.getItem('performanceHistories') || '[]');
+            let historyListGroup = document.getElementById('historyListGroup');
+            historyListGroup.innerHTML = '';
+            histories.forEach(history => {
+                let li = document.createElement('li');
+                li.classList.add('list-group-item');
+                li.textContent = `${history.historyEmployeeName} (${history.historyDate}): ${history.historyComments} - Rating: ${history.historyRating} stars`;
+                historyListGroup.appendChild(li);
+            });
+        }
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadReviews();
+            loadGoals();
+            loadFeedbacks();
+            loadHistories();
         });
     </script>
 </body>

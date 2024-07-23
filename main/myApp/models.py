@@ -1,7 +1,6 @@
 from django.db import models
 
-# Create models here
-
+# Define Employee model
 class Employee(models.Model):
     GENDER_CHOICES = [
         ('M', 'Male'),
@@ -30,3 +29,17 @@ class Employee(models.Model):
 
     def __str__(self):
         return self.fullname
+
+# Define Payroll model
+class Payroll(models.Model):
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    month = models.CharField(max_length=20)
+    gross_pay = models.DecimalField(max_digits=10, decimal_places=2)
+    total_deductions = models.DecimalField(max_digits=10, decimal_places=2)
+    total_bonuses = models.DecimalField(max_digits=10, decimal_places=2)
+    total_fringe_benefits = models.DecimalField(max_digits=10, decimal_places=2)
+    net_pay = models.DecimalField(max_digits=10, decimal_places=2)
+    processed_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.employee.fullname} - {self.month}"

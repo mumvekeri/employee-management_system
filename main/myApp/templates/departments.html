@@ -23,6 +23,9 @@
             background-color: #007bff;
             color: #fff;
         }
+        table {
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -42,7 +45,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'departments' %}"><i class="fas fa-building"></i> Departments</a>
                 </li>
-                
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'correct' %}"><i class="fas fa-clock"></i> Attendance</a>
                 </li>
@@ -71,17 +73,44 @@
                         <label for="manager">Manager:</label>
                         <select class="form-control" id="manager" name="manager">
                             <!-- Add manager options here -->
-                            <option value="1">John Doe</option>
-                            <option value="2">Jane Smith</option>
+                            <option value="John Doe">John Doe</option>
+                            <option value="Jane Smith">Jane Smith</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="supervisor">Supervisor:</label>
+                        <select class="form-control" id="supervisor" name="supervisor">
+                            <!-- Add supervisor options here -->
+                            <option value="Alice Johnson">Alice Johnson</option>
+                            <option value="Bob Brown">Bob Brown</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="director">Director:</label>
+                        <select class="form-control" id="director" name="director">
+                            <!-- Add director options here -->
+                            <option value="Charles Lee">Charles Lee</option>
+                            <option value="Diana King">Diana King</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Add Department</button>
                 </form>
                 <hr>
                 <h5>Existing Departments</h5>
-                <ul id="departmentsList" class="list-group">
-                    <!-- List of departments will be dynamically generated here -->
-                </ul>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Department Name</th>
+                            <th>Manager</th>
+                            <th>Supervisor</th>
+                            <th>Director</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="departmentsTableBody">
+                        <!-- Table rows will be dynamically generated here -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -94,21 +123,19 @@
             const departments = [];
 
             function renderDepartments() {
-                $('#departmentsList').empty();
+                $('#departmentsTableBody').empty();
                 departments.forEach((department, index) => {
-                    $('#departmentsList').append(`
-                        <li class="list-group-item">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h5>${department.name}</h5>
-                                    <p>Manager: ${department.manager}</p>
-                                </div>
-                                <div>
-                                    <button class="btn btn-sm btn-warning" onclick="editDepartment(${index})">Edit</button>
-                                    <button class="btn btn-sm btn-danger" onclick="deleteDepartment(${index})">Delete</button>
-                                </div>
-                            </div>
-                        </li>
+                    $('#departmentsTableBody').append(`
+                        <tr>
+                            <td>${department.name}</td>
+                            <td>${department.manager}</td>
+                            <td>${department.supervisor}</td>
+                            <td>${department.director}</td>
+                            <td>
+                                <button class="btn btn-sm btn-warning" onclick="editDepartment(${index})">Edit</button>
+                                <button class="btn btn-sm btn-danger" onclick="deleteDepartment(${index})">Delete</button>
+                            </td>
+                        </tr>
                     `);
                 });
             }
@@ -117,23 +144,46 @@
                 event.preventDefault();
                 const departmentName = $('#departmentName').val();
                 const manager = $('#manager').val();
-                departments.push({ name: departmentName, manager: manager });
+                const supervisor = $('#supervisor').val();
+                const director = $('#director').val();
+                
+                if (departmentName.trim() === '') {
+                    alert('Please enter a department name.');
+                    return;
+                }
+                
+                // Check for uniqueness
+                const exists = departments.some(dep => dep.name === departmentName);
+                if (exists) {
+                    alert('Department already exists.');
+                    return;
+                }
+                
+                departments.push({ name: departmentName, manager: manager, supervisor: supervisor, director: director });
                 renderDepartments();
                 $('#departmentName').val('');
                 $('#manager').val('');
+                $('#supervisor').val('');
+                $('#director').val('');
             });
 
             window.editDepartment = function(index) {
                 const department = departments[index];
                 $('#departmentName').val(department.name);
                 $('#manager').val(department.manager);
+                $('#supervisor').val(department.supervisor);
+                $('#director').val(department.director);
                 $('#departmentForm').off('submit').on('submit', function(event) {
                     event.preventDefault();
                     departments[index].name = $('#departmentName').val();
                     departments[index].manager = $('#manager').val();
+                    departments[index].supervisor = $('#supervisor').val();
+                    departments[index].director = $('#director').val();
                     renderDepartments();
                     $('#departmentName').val('');
                     $('#manager').val('');
+                    $('#supervisor').val('');
+                    $('#director').val('');
                     $('#departmentForm').off('submit').on('submit', addDepartment);
                 });
             }
@@ -147,10 +197,27 @@
                 event.preventDefault();
                 const departmentName = $('#departmentName').val();
                 const manager = $('#manager').val();
-                departments.push({ name: departmentName, manager: manager });
+                const supervisor = $('#supervisor').val();
+                const director = $('#director').val();
+                
+                if (departmentName.trim() === '') {
+                    alert('Please enter a department name.');
+                    return;
+                }
+                
+                // Check for uniqueness
+                const exists = departments.some(dep => dep.name === departmentName);
+                if (exists) {
+                    alert('Department already exists.');
+                    return;
+                }
+                
+                departments.push({ name: departmentName, manager: manager, supervisor: supervisor, director: director });
                 renderDepartments();
                 $('#departmentName').val('');
                 $('#manager').val('');
+                $('#supervisor').val('');
+                $('#director').val('');
             }
         });
     </script>

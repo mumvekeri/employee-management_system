@@ -59,7 +59,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'departments' %}"><i class="fas fa-building"></i> Departments</a>
                 </li>
-        
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'correct' %}"><i class="fas fa-clock"></i> Attendance</a>
                 </li>
@@ -101,20 +100,20 @@
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="card text-white bg-warning mb-3" id="recentHiresCard">
+                <div class="card text-white bg-warning mb-3" id="attendanceCard">
                     <div class="card-body text-center">
-                        <i class="fas fa-user-plus"></i>
-                        <h5 class="card-title" id="recentHires">0</h5>
-                        <p class="card-text">Recent Hires</p>
+                        <i class="fas fa-clock"></i>
+                        <h5 class="card-title" id="attendance">0</h5>
+                        <p class="card-text">Attendance</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
-                <div class="card text-white bg-info mb-3" id="totalPoliciesCard">
+                <div class="card text-white bg-info mb-3" id="performanceCard">
                     <div class="card-body text-center">
-                        <i class="fas fa-file-alt"></i>
-                        <h5 class="card-title" id="totalPolicies">0</h5>
-                        <p class="card-text">Total Policies</p>
+                        <i class="fas fa-chart-line"></i>
+                        <h5 class="card-title" id="performance">0</h5>
+                        <p class="card-text">Performance</p>
                     </div>
                 </div>
             </div>
@@ -178,15 +177,8 @@
         function updateKeyMetrics() {
             document.getElementById('totalEmployees').textContent = employees.length;
             document.getElementById('totalDepartments').textContent = departments.length;
-            document.getElementById('recentHires').textContent = employees.filter(emp => {
-                var dateJoined = new Date(emp.dateJoined);
-                var today = new Date();
-                var diffTime = Math.abs(today - dateJoined);
-                var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                return diffDays <= 30;
-            }).length;
-            // For demonstration purposes, setting total policies to a static value
-            document.getElementById('totalPolicies').textContent = 10;
+            document.getElementById('attendance').textContent = 95; // Example static value for attendance
+            document.getElementById('performance').textContent = 80; // Example static value for performance
         }
 
         // Function to display recent activities
@@ -234,15 +226,15 @@
         });
 
         document.getElementById('totalDepartmentsCard').addEventListener('click', function() {
-            window.location.href = "{% url 'departments' %}"; // Redirect to departments page
+            window.location.href = "{% url 'departments' %}";
         });
 
-        document.getElementById('recentHiresCard').addEventListener('click', function() {
-            // No redirection for recent hires, you may add your URL if needed
+        document.getElementById('attendanceCard').addEventListener('click', function() {
+            window.location.href = "{% url 'correct' %}";
         });
 
-        document.getElementById('totalPoliciesCard').addEventListener('click', function() {
-            // No redirection for total policies, you may add your URL if needed
+        document.getElementById('performanceCard').addEventListener('click', function() {
+            window.location.href = "{% url 'perfomance' %}";
         });
 
         // Update dashboard on page load

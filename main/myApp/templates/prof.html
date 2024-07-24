@@ -44,7 +44,6 @@
             background-color: #ff0099;
             border-color: #007bff;
         }
-    
 
         .btn-primary:hover {
             background-color: #0056b3;
@@ -87,7 +86,6 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'departments' %}"><i class="fas fa-building"></i> Departments</a>
                 </li>
-               
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'correct' %}"><i class="fas fa-clock"></i> Attendance</a>
                 </li>
@@ -209,180 +207,164 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
-        $(document).ready(function() {
-            // Function to fetch employees from local storage or initialize empty array
-            function fetchEmployees() {
-                var employees = localStorage.getItem('employees');
-                if (employees) {
-                    return JSON.parse(employees);
-                } else {
-                    return [];
-                }
-            }
+        // Function to fetch employees from local storage
+        function fetchEmployees() {
+            var employees = localStorage.getItem('employees');
+            return employees ? JSON.parse(employees) : [];
+        }
 
-            // Function to save employees to local storage
-            function saveEmployees(employees) {
-                localStorage.setItem('employees', JSON.stringify(employees));
-            }
+        // Function to save employees to local storage
+        function saveEmployees(employees) {
+            localStorage.setItem('employees', JSON.stringify(employees));
+        }
 
-            // Initial display of employees
-            function displayEmployees() {
-                var employees = fetchEmployees();
-                var employeeTableBody = $('#employeeTableBody');
-                employeeTableBody.empty(); // Clear existing table rows
+        // Function to update the total employee count
+        function updateEmployeeCount() {
+            var employees = fetchEmployees();
+            localStorage.setItem('employeeCount', employees.length);
+        }
 
-                employees.forEach(function(employee) {
-                    var row = '<tr>'
-                        + '<td>' + employee.fullName + '</td>'
-                        + '<td>' + employee.jobTitle + '</td>'
-                        + '<td>' + employee.department + '</td>'
-                        + '<td>' + employee.gender + '</td>'
-                        + '<td>' + employee.age + '</td>'
-                        + '<td>' + employee.cellNumber + '</td>'
-                        + '<td>' + employee.email + '</td>'
-                        + '<td>' + employee.dateJoined + '</td>'
-                        + '<td><img src="' + employee.profilePicture + '" alt="Profile Picture" style="width:50px;height:50px;"></td>'
-                        + '<td><a href="' + employee.resume + '" target="_blank">View Resume</a></td>'
-                        + '<td>'
-                        + '<button type="button" class="btn btn-sm btn-info editEmployee" data-id="' + employee.id + '">Edit</button>'
-                        + '<button type="button" class="btn btn-sm btn-danger deleteEmployee ml-2" data-id="' + employee.id + '">Delete</button>'
-                        + '</td>'
-                        + '</tr>';
-                    employeeTableBody.append(row);
-                });
-            }
+        // Function to display employees in the table
+        function displayEmployees() {
+            var employees = fetchEmployees();
+            var tableBody = $('#employeeTableBody');
+            tableBody.empty();
 
-            // Add employee
-            $('#employeeForm').submit(function(event) {
-                event.preventDefault();
-                var fullName = $('#fullName').val();
-                var jobTitle = $('#jobTitle').val();
-                var department = $('#department').val();
-                var gender = $('#gender').val();
-                var age = $('#age').val();
-                var cellNumber = $('#cellNumber').val();
-                var email = $('#email').val();
-                var dateJoined = $('#dateJoined').val();
-                var profilePicture = $('#profilePicture')[0].files[0];
-                var resume = $('#resume')[0].files[0];
+            employees.forEach(function(employee) {
+                tableBody.append('<tr>' +
+                    '<td>' + employee.fullName + '</td>' +
+                    '<td>' + employee.jobTitle + '</td>' +
+                    '<td>' + employee.department + '</td>' +
+                    '<td>' + employee.gender + '</td>' +
+                    '<td>' + employee.age + '</td>' +
+                    '<td>' + employee.cellNumber + '</td>' +
+                    '<td>' + employee.email + '</td>' +
+                    '<td>' + employee.dateJoined + '</td>' +
+                    '<td><img src="' + employee.profilePicture + '" alt="Profile Picture" width="50"></td>' +
+                    '<td><a href="' + employee.resume + '" target="_blank">View Resume</a></td>' +
+                    '<td><button class="btn btn-warning btn-sm editEmployee" data-id="' + employee.id + '">Edit</button>' +
+                    '<button class="btn btn-danger btn-sm deleteEmployee" data-id="' + employee.id + '">Delete</button></td>' +
+                    '</tr>');
+            });
+        }
 
-                var employees = fetchEmployees();
+        // Add employee
+        $('#employeeForm').submit(function(event) {
+            event.preventDefault();
+            var fullName = $('#fullName').val();
+            var jobTitle = $('#jobTitle').val();
+            var department = $('#department').val();
+            var gender = $('#gender').val();
+            var age = $('#age').val();
+            var cellNumber = $('#cellNumber').val();
+            var email = $('#email').val();
+            var dateJoined = $('#dateJoined').val();
+            var profilePicture = $('#profilePicture')[0].files[0];
+            var resume = $('#resume')[0].files[0];
 
-                // Generate unique ID (for demo, replace with actual ID generation logic)
-                var id = employees.length + 1;
+            var employees = fetchEmployees();
 
-                var profilePictureUrl = URL.createObjectURL(profilePicture);
-                var resumeUrl = URL.createObjectURL(resume);
+            // Generate unique ID (for demo, replace with actual ID generation logic)
+            var id = employees.length + 1;
 
-                // Add new employee to array
-                employees.push({
-                    id: id,
-                    fullName: fullName,
-                    jobTitle: jobTitle,
-                    department: department,
-                    gender: gender,
-                    age: age,
-                    cellNumber: cellNumber,
-                    email: email,
-                    dateJoined: dateJoined,
-                    profilePicture: profilePictureUrl,
-                    resume: resumeUrl
-                });
+            var profilePictureUrl = URL.createObjectURL(profilePicture);
+            var resumeUrl = URL.createObjectURL(resume);
+
+            // Add new employee to array
+            employees.push({
+                id: id,
+                fullName: fullName,
+                jobTitle: jobTitle,
+                department: department,
+                gender: gender,
+                age: age,
+                cellNumber: cellNumber,
+                email: email,
+                dateJoined: dateJoined,
+                profilePicture: profilePictureUrl,
+                resume: resumeUrl
+            });
+
+            // Save updated employees to local storage
+            saveEmployees(employees);
+
+            // Update employee count
+            updateEmployeeCount();
+
+            // Update table display
+            displayEmployees();
+
+            // Reset form
+            $('#employeeForm')[0].reset();
+        });
+
+        // Update employee
+        $('#updateButton').click(function() {
+            var id = $(this).data('id');
+            var employees = fetchEmployees();
+            var index = employees.findIndex(emp => emp.id === id);
+            if (index !== -1) {
+                employees[index].fullName = $('#fullName').val();
+                employees[index].jobTitle = $('#jobTitle').val();
+                employees[index].department = $('#department').val();
+                employees[index].gender = $('#gender').val();
+                employees[index].age = $('#age').val();
+                employees[index].cellNumber = $('#cellNumber').val();
+                employees[index].email = $('#email').val();
+                employees[index].dateJoined = $('#dateJoined').val();
 
                 // Save updated employees to local storage
                 saveEmployees(employees);
 
+                // Update employee count
+                updateEmployeeCount();
+
                 // Update table display
                 displayEmployees();
 
-                // Reset form
-                $('#employeeForm')[0].reset();
-            });
-
-            // Edit employee
-            $(document).on('click', '.editEmployee', function() {
-                var id = $(this).data('id');
-                var employees = fetchEmployees();
-                var employee = employees.find(emp => emp.id === id);
-                if (employee) {
-                    $('#fullName').val(employee.fullName);
-                    $('#jobTitle').val(employee.jobTitle);
-                    $('#department').val(employee.department);
-                    $('#gender').val(employee.gender);
-                    $('#age').val(employee.age);
-                    $('#cellNumber').val(employee.cellNumber);
-                    $('#email').val(employee.email);
-                    $('#dateJoined').val(employee.dateJoined);
-
-                    // Show update and delete buttons, hide add button
-                    $('#submitButton').hide();
-                    $('#updateButton').show().data('id', id);
-                    $('#deleteButton').show().data('id', id);
-                }
-            });
-
-            // Update employee
-            $('#updateButton').click(function() {
-                var id = $(this).data('id');
-                var employees = fetchEmployees();
-                var index = employees.findIndex(emp => emp.id === id);
-                if (index !== -1) {
-                    employees[index].fullName = $('#fullName').val();
-                    employees[index].jobTitle = $('#jobTitle').val();
-                    employees[index].department = $('#department').val();
-                    employees[index].gender = $('#gender').val();
-                    employees[index].age = $('#age').val();
-                    employees[index].cellNumber = $('#cellNumber').val();
-                    employees[index].email = $('#email').val();
-                    employees[index].dateJoined = $('#dateJoined').val();
-
-                    // Save updated employees to local storage
-                    saveEmployees(employees);
-
-                    // Update table display
-                    displayEmployees();
-
-                    // Reset form and buttons
-                    $('#employeeForm')[0].reset();
-                    $('#submitButton').show();
-                    $('#updateButton').hide();
-                    $('#deleteButton').hide();
-                }
-            });
-
-            // Delete employee
-            $(document).on('click', '.deleteEmployee', function() {
-                var id = $(this).data('id');
-                var employees = fetchEmployees();
-                var index = employees.findIndex(emp => emp.id === id);
-                if (index !== -1) {
-                    employees.splice(index, 1);
-
-                    // Save updated employees to local storage
-                    saveEmployees(employees);
-
-                    // Update table display
-                    displayEmployees();
-
-                    // Reset form and buttons
-                    $('#employeeForm')[0].reset();
-                    $('#submitButton').show();
-                    $('#updateButton').hide();
-                    $('#deleteButton').hide();
-                }
-            });
-
-            // Reset form
-            $('#resetButton').click(function() {
+                // Reset form and buttons
                 $('#employeeForm')[0].reset();
                 $('#submitButton').show();
                 $('#updateButton').hide();
                 $('#deleteButton').hide();
-            });
-
-            // Initial display of employees
-            displayEmployees();
+            }
         });
+
+        // Delete employee
+        $(document).on('click', '.deleteEmployee', function() {
+            var id = $(this).data('id');
+            var employees = fetchEmployees();
+            var index = employees.findIndex(emp => emp.id === id);
+            if (index !== -1) {
+                employees.splice(index, 1);
+
+                // Save updated employees to local storage
+                saveEmployees(employees);
+
+                // Update employee count
+                updateEmployeeCount();
+
+                // Update table display
+                displayEmployees();
+
+                // Reset form and buttons
+                $('#employeeForm')[0].reset();
+                $('#submitButton').show();
+                $('#updateButton').hide();
+                $('#deleteButton').hide();
+            }
+        });
+
+        // Reset form
+        $('#resetButton').click(function() {
+            $('#employeeForm')[0].reset();
+            $('#submitButton').show();
+            $('#updateButton').hide();
+            $('#deleteButton').hide();
+        });
+
+        // Initial display of employees
+        displayEmployees();
     </script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 from django.urls import path
+from .views import get_total_employees
 
 from . import views
 
@@ -11,4 +12,5 @@ urlpatterns = [
     path('correct/', views.correct, name='correct'),
     path('performance/', views.performance, name='performance'),
     path('payroll/', views.payroll, name='payroll'),
+    path('api/total-employees/', get_total_employees, name='total_employees'),
 ]

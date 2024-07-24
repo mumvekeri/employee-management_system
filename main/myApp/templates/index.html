@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Management Dashboard</title>
+    <title>Recent Hires and Policies</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
@@ -21,11 +21,6 @@
             margin-top: 20px;
         }
 
-        .card {
-            margin-bottom: 20px;
-            cursor: pointer; /* Add cursor pointer for clickable cards */
-        }
-
         .footer {
             background-color: #f8f9fa;
             padding: 1rem 0;
@@ -34,10 +29,6 @@
         .dashboard-header {
             margin-bottom: 20px;
             text-align: center;
-        }
-
-        .card .card-body i {
-            font-size: 3rem;
         }
     </style>
 </head>
@@ -51,96 +42,56 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                    <a class="nav-link" href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'prof' %}"><i class="fas fa-users"></i> Employees</a>
+                    <a class="nav-link" href="employees.html"><i class="fas fa-users"></i> Employees</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'departments' %}"><i class="fas fa-building"></i> Departments</a>
-                </li>
-                <!--
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'calendar' %}"><i class="fas fa-calendar-alt"></i> Calendar</a>
-                </li>-->
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'attendance' %}"><i class="fas fa-clock"></i> Attendance</a>
+                    <a class="nav-link" href="departments.html"><i class="fas fa-building"></i> Departments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'perfomance' %}"><i class="fas fa-chart-line"></i> Performance Management</a>
+                    <a class="nav-link" href="attendance.html"><i class="fas fa-clock"></i> Attendance</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'payroll' %}"><i class="fas fa-money-bill-wave"></i> Payroll Management</a>
+                    <a class="nav-link" href="performance.html"><i class="fas fa-chart-line"></i> Performance</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="payroll.html"><i class="fas fa-money-bill-wave"></i> Payroll</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="recent_hires_and_policies.html"><i class="fas fa-file-alt"></i> Recent Hires & Policies</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-    <!-- Dashboard Content -->
+    <!-- Page Content -->
     <div class="container">
         <div class="dashboard-header">
-            <h1>Dashboard</h1>
-            <p>Welcome to the Employee Management Dashboard</p>
+            <h1>Recent Hires and Policies</h1>
         </div>
 
-        <!-- Key Metrics Section -->
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card text-white bg-primary mb-3" id="totalEmployeesCard">
-                    <div class="card-body text-center">
-                        <i class="fas fa-users"></i>
-                        <h5 class="card-title" id="totalEmployees">0</h5>
-                        <p class="card-text">Total Employees</p>
-                    </div>
-                </div>
+        <!-- Recent Hires Section -->
+        <div class="card mb-4">
+            <div class="card-header">
+                Recent Hires
             </div>
-            <div class="col-md-3">
-                <div class="card text-white bg-success mb-3" id="totalDepartmentsCard">
-                    <div class="card-body text-center">
-                        <i class="fas fa-building"></i>
-                        <h5 class="card-title" id="totalDepartments">0</h5>
-                        <p class="card-text">Total Departments</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-white bg-warning mb-3" id="recentHiresCard">
-                    <div class="card-body text-center">
-                        <i class="fas fa-user-plus"></i>
-                        <h5 class="card-title" id="recentHires">0</h5>
-                        <p class="card-text">Recent Hires</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-white bg-info mb-3" id="totalPoliciesCard">
-                    <div class="card-body text-center">
-                        <i class="fas fa-file-alt"></i>
-                        <h5 class="card-title" id="totalPolicies">0</h5>
-                        <p class="card-text">Total Policies</p>
-                    </div>
-                </div>
+            <div class="card-body">
+                <ul id="recentHiresList" class="list-unstyled">
+                    <!-- Recent hires will be dynamically added here -->
+                </ul>
             </div>
         </div>
 
-        <!-- Employee Statistics Section -->
+        <!-- Policies Section -->
         <div class="card">
             <div class="card-header">
-                Employee Statistics
+                Company Policies
             </div>
             <div class="card-body">
-                <canvas id="employeeStatsChart"></canvas>
-            </div>
-        </div>
-
-        <!-- Recent Activities Section -->
-        <div class="card mt-4">
-            <div class="card-header">
-                Recent Activities
-            </div>
-            <div class="card-body">
-                <ul id="recentActivities" class="list-unstyled">
-                    <!-- Recent activities will be dynamically added here -->
+                <ul id="policiesList" class="list-unstyled">
+                    <!-- Policies will be dynamically added here -->
                 </ul>
             </div>
         </div>
@@ -157,99 +108,58 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Sample data for demonstration
         var employees = [
             { id: 1, fullName: 'John Doe', jobTitle: 'Software Engineer', department: 'Engineering', dateJoined: '2024-01-01' },
             { id: 2, fullName: 'Jane Smith', jobTitle: 'HR Manager', department: 'Human Resources', dateJoined: '2023-05-15' },
             { id: 3, fullName: 'Alice Johnson', jobTitle: 'Product Manager', department: 'Product', dateJoined: '2024-06-20' },
             { id: 1, fullName: 'John Doe', jobTitle: 'Software Engineer', department: 'Engineering', dateJoined: '2024-01-01' },
             { id: 2, fullName: 'Jane Smith', jobTitle: 'HR Manager', department: 'Human Resources', dateJoined: '2023-05-15' },
-            { id: 3, fullName: 'Alice Johnson', jobTitle: 'Product Manager', department: 'Product', dateJoined: '2024-06-20' }
+            { id: 4, fullName: 'Alice Johnson', jobTitle: 'Product Manager', department: 'Product', dateJoined: '2024-06-20' },
+            { id: 5, fullName: 'John Johnson', jobTitle: 'Software Engineer', department: 'Engineering', dateJoined: '2020-06-20' },
+            { id: 6, fullName: 'Hilary Carter', jobTitle: 'HR Director', department: 'Human Resources', dateJoined: '2019-09-20' },
+            { id: 7, fullName: 'Chido Mumvex', jobTitle: 'Assistant', department: 'Product', dateJoined: '2005-08-09' },
+            { id: 8, fullName: 'Patience Chifamba', jobTitle: 'Cook', department: 'Product', dateJoined: '2000-06-25' },
+            { id: 9, fullName: 'Alicia Tina', jobTitle: 'Finance Manager', department: 'Finance', dateJoined: '2024-06-20' },
         ];
 
-        var departments = ['Engineering', 'Human Resources', 'Product'];
+        var policies = [
+            { title: 'Code of Conduct', description: 'This policy outlines the expected behavior and ethical standards for employees.' },
+            { title: 'Attendance Policy', description: 'This policy explains the rules and procedures regarding employee attendance.' },
+            { title: 'Leave Policy', description: 'This policy details the types of leave available and the process for requesting leave.' },
+            { title: 'Remote Work Policy', description: 'This policy describes the guidelines and expectations for employees working remotely.' },
+            { title: 'Data Security Policy', description: 'This policy outlines the measures taken to protect company data and employee information.' }
+        ];
 
-        // Function to calculate and display key metrics
-        function updateKeyMetrics() {
-            document.getElementById('totalEmployees').textContent = employees.length;
-            document.getElementById('totalDepartments').textContent = departments.length;
-            document.getElementById('recentHires').textContent = filterRecentHires(employees).length;
-            document.getElementById('totalPolicies').textContent = calculateTotalPolicies();
-        }
-
-        // Function to calculate and display total policies
-        function calculateTotalPolicies() {
-            // Replace this with your logic to fetch or calculate total policies dynamically
-            var totalPolicies = 10; // Example static value, replace with your dynamic calculation
-            return totalPolicies;
-        }
-
-        // Function to filter recent hires
-        function filterRecentHires(employees) {
-            var today = new Date();
-            var thirtyDaysAgo = new Date(today.getTime() - 30 * 24 * 60 * 60 * 1000); // 30 days ago
-
-            return employees.filter(function(emp) {
-                var dateJoined = new Date(emp.dateJoined);
-                return dateJoined >= thirtyDaysAgo && dateJoined <= today;
+        // Function to display recent hires
+        function displayRecentHires() {
+            var recentHiresList = document.getElementById('recentHiresList');
+            recentHiresList.innerHTML = ''; // Clear previous content
+            employees.slice(-5).forEach(function(employee) {
+                var hire = '<li class="mb-2">'
+                         + '<i class="fas fa-user-plus text-success"></i> '
+                         + employee.fullName + ' joined as ' + employee.jobTitle
+                         + '</li>';
+                recentHiresList.insertAdjacentHTML('beforeend', hire);
             });
         }
 
-        // Function to display recent activities
-        function displayRecentActivities() {
-            var recentActivities = document.getElementById('recentActivities');
-            recentActivities.innerHTML = ''; // Clear previous content
-            filterRecentHires(employees).forEach(function(employee) {
-                var activity = '<li class="mb-2">'
-                             + '<i class="fas fa-user-plus text-success"></i> '
-                             + employee.fullName + ' joined as ' + employee.jobTitle
-                             + '</li>';
-                recentActivities.insertAdjacentHTML('beforeend', activity);
+        // Function to display policies
+        function displayPolicies() {
+            var policiesList = document.getElementById('policiesList');
+            policiesList.innerHTML = ''; // Clear previous content
+            policies.forEach(function(policy) {
+                var policyItem = '<li class="mb-2">'
+                               + '<strong>' + policy.title + ':</strong> ' + policy.description
+                               + '</li>';
+                policiesList.insertAdjacentHTML('beforeend', policyItem);
             });
         }
 
-        // Function to display employee statistics chart
-        function displayEmployeeStatsChart() {
-            var ctx = document.getElementById('employeeStatsChart').getContext('2d');
-            var employeeStatsChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: departments,
-                    datasets: [{
-                        label: '# of Employees',
-                        data: departments.map(department => employees.filter(emp => emp.department === department).length),
-                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                        borderColor: 'rgba(54, 162, 235, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            precision: 0
-                        }
-                    }
-                }
-            });
-        }
-
-        // Event listeners for metric cards with redirection
-        document.getElementById('totalEmployeesCard').addEventListener('click', function() {
-            window.location.href = 'create_employee.html'; // Redirect to employees page
-        });
-
-        document.getElementById('totalDepartmentsCard').addEventListener('click', function() {
-            window.location.href = 'departments.html'; // Redirect to departments page
-        });
-
-        // Update dashboard on page load
+        // Update page on load
         window.addEventListener('load', function() {
-            updateKeyMetrics();
-            displayRecentActivities();
-            displayEmployeeStatsChart();
+            displayRecentHires();
+            displayPolicies();
         });
     </script>
 </body>

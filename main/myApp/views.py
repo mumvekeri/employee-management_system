@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from .models import Employee
 
@@ -56,4 +57,8 @@ def payroll(request):
 
         return JsonResponse({'message': 'Payroll processed successfully.'})
     return render(request, 'payroll.html', {})
+
+def get_total_employees(request):
+    total_employees = Employee.objects.count()
+    return JsonResponse({'total_employees': total_employees})
 

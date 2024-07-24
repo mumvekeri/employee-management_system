@@ -156,10 +156,31 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
+            fetchEmployees();
             fetchAttendances();
             fetchLeaveRequests();
             fetchTimeOffBalances();
-            fetchEmployees();
+
+            function fetchEmployees() {
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/api/employees/', // Replace with your actual API endpoint
+                    method: 'GET',
+                    success: function(data) {
+                        let attendanceEmployeeSelect = $('#attendanceEmployee');
+                        let leaveEmployeeSelect = $('#leaveEmployee');
+                        attendanceEmployeeSelect.empty();
+                        leaveEmployeeSelect.empty();
+                        data.forEach(employee => {
+                            let option = `<option value="${employee.id}">${employee.fullName}</option>`;
+                            attendanceEmployeeSelect.append(option);
+                            leaveEmployeeSelect.append(option);
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error fetching employees:', error);
+                    }
+                });
+            }
 
             function fetchAttendances() {
                 $.ajax({
@@ -187,19 +208,19 @@
 
             function fetchLeaveRequests() {
                 $.ajax({
-                    url: 'http://127.0.0.1:8000/api/leave-requests/',
+                    url: 'http://127.0.0.1:8000/api/leave_requests/',
                     method: 'GET',
                     success: function(data) {
                         let leaveRequestsList = $('#leaveRequestsList');
                         leaveRequestsList.empty();
-                        data.forEach(request => {
-                            let item = `<div class="card mb-3">
-                                <div class="card-body">
-                                    <h6 class="card-subtitle mb-2 text-muted">${request.employee_name} - ${request.leave_type}</h6>
-                                    <p class="card-text">Start Date: ${request.start_date} | End Date: ${request.end_date}</p>
-                                </div>
+                        data.forEach(leaveRequest => {
+                            let requestDiv = `<div class="alert alert-info">
+                                <strong>Employee:</strong> ${leaveRequest.employee} <br>
+                                <strong>Leave Type:</strong> ${leaveRequest.leave_type} <br>
+                                <strong>Start Date:</strong> ${leaveRequest.start_date} <br>
+                                <strong>End Date:</strong> ${leaveRequest.end_date}
                             </div>`;
-                            leaveRequestsList.append(item);
+                            leaveRequestsList.append(requestDiv);
                         });
                     },
                     error: function(xhr, status, error) {
@@ -210,14 +231,19 @@
 
             function fetchTimeOffBalances() {
                 $.ajax({
-                    url: 'http://127.0.0.1:8000/api/time-off-balances/',
+                    url: 'http://127.0.0.1:8000/api/time_off_balances/',
                     method: 'GET',
                     success: function(data) {
                         let timeOffBalances = $('#timeOffBalances');
                         timeOffBalances.empty();
                         data.forEach(balance => {
-                            let item = `<p>${balance.employee_name} - ${balance.leave_type}: ${balance.days_remaining} days remaining</p>`;
-                            timeOffBalances.append(item);
+                            let balanceDiv = `<div class="alert alert-secondary">
+                                <strong>Employee:</strong> ${balance.employee} <br>
+                                <strong>Total Leave:</strong> ${balance.total_leave} <br>
+                                <strong>Used Leave:</strong> ${balance.used_leave} <br>
+                                <strong>Available Leave:</strong> ${balance.available_leave}
+                            </div>`;
+                            timeOffBalances.append(balanceDiv);
                         });
                     },
                     error: function(xhr, status, error) {
@@ -226,73 +252,27 @@
                 });
             }
 
-            function fetchEmployees() {
-                $.ajax({
-                    url: 'http://127.0.0.1:8000/api/employees/',
-                    method: 'GET',
-                    success: function(data) {
-                        let employeeSelect = $('#attendanceEmployee, #leaveEmployee');
-                        employeeSelect.empty();
-                        data.forEach(employee => {
-                            let option = `<option value="${employee.id}">${employee.name}</option>`;
-                            employeeSelect.append(option);
-                        });
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error fetching employees:', error);
-                    }
-                });
-            }
+            $('#attendanceForm').submit(function(event) {
+                event.preventDefault();
+                var date = $('#attendanceDate').val();
+                var employeeId = $('#attendanceEmployee').val();
+                var checkInTime = $('#attendanceCheckIn').val();
+                var checkOutTime = $('#attendanceCheckOut').val();
+                var status = $('#attendanceStatus').val();
 
-            $('#attendanceForm').on('submit', function(e) {
-                e.preventDefault();
-                let attendanceData = {
-                    date: $('#attendanceDate').val(),
-                    employee: $('#attendanceEmployee').val(),
-                    check_in_time: $('#attendanceCheckIn').val(),
-                    check_out_time: $('#attendanceCheckOut').val(),
-                    status: $('#attendanceStatus').val()
-                };
-
-                $.ajax({
-                    url: 'http://127.0.0.1:8000/api/attendances/',
-                    method: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(attendanceData),
-                    success: function(response) {
-                        console.log('Attendance added successfully:', response);
-                        fetchAttendances();
-                        $('#attendanceForm')[0].reset();
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error adding attendance:', error);
-                    }
-                });
+                // Process attendance data here (e.g., send to server)
+                console.log(`Date: ${date}, Employee ID: ${employeeId}, Check-in: ${checkInTime}, Check-out: ${checkOutTime}, Status: ${status}`);
             });
 
-            $('#leaveRequestForm').on('submit', function(e) {
-                e.preventDefault();
-                let leaveRequestData = {
-                    employee: $('#leaveEmployee').val(),
-                    leave_type: $('#leaveType').val(),
-                    start_date: $('#leaveStartDate').val(),
-                    end_date: $('#leaveEndDate').val()
-                };
+            $('#leaveRequestForm').submit(function(event) {
+                event.preventDefault();
+                var employeeId = $('#leaveEmployee').val();
+                var leaveType = $('#leaveType').val();
+                var startDate = $('#leaveStartDate').val();
+                var endDate = $('#leaveEndDate').val();
 
-                $.ajax({
-                    url: 'http://127.0.0.1:8000/api/leave-requests/',
-                    method: 'POST',
-                    contentType: 'application/json',
-                    data: JSON.stringify(leaveRequestData),
-                    success: function(response) {
-                        console.log('Leave request added successfully:', response);
-                        fetchLeaveRequests();
-                        $('#leaveRequestForm')[0].reset();
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error adding leave request:', error);
-                    }
-                });
+                // Process leave request data here (e.g., send to server)
+                console.log(`Employee ID: ${employeeId}, Leave Type: ${leaveType}, Start Date: ${startDate}, End Date: ${endDate}`);
             });
         });
     </script>

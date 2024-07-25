@@ -10,7 +10,7 @@ urlpatterns = [
     path('prof/', views.prof, name='prof'),
     path('departments/', views.departments, name='departments'),
     path('correct/', views.correct, name='correct'),
-    path('performance/', views.performance, name='performance'),
+    path('perfomance/', views.perfomance, name='perfomance'),
     path('payroll/', views.payroll, name='payroll'),
     path('api/total-employees/', get_total_employees, name='total_employees'),
 ]

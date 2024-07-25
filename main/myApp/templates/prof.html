@@ -23,8 +23,8 @@
         .card {
             margin-top: 5rem;
             border-radius: 10px;
-            background-color: #e9f1f7; /* Light blue background color */
-            padding: 20px; /* Add padding for better readability */
+            background-color: #e9f1f7;
+            padding: 20px;
         }
 
         .card-header {
@@ -34,10 +34,6 @@
             border-top-right-radius: 10px;
             text-align: center;
             font-size: 1.5rem;
-        }
-
-        .card-footer {
-            background-color: #f8f9fa;
         }
 
         .btn-primary {
@@ -99,6 +95,7 @@
         </div>
     </nav>
 
+
     <!-- Form Section -->
     <div class="container mt-5">
         <div class="card">
@@ -106,15 +103,14 @@
                 Add / Update / Delete Employee
             </div>
             <div class="card-body">
-                <form id="employeeForm" action="" method="post">
-                    {% csrf_token %}
+                <form id="employeeForm">
                     <div class="form-group">
                         <label for="fullName">Full Name</label>
-                        <input type="text" class="form-control" name="fullname" id="fullName" placeholder="Enter full name" required>
+                        <input type="text" class="form-control" id="fullName" placeholder="Enter full name" required>
                     </div>
                     <div class="form-group">
                         <label for="gender">Gender</label>
-                        <select class="form-control" id="gender" name="gender" required>
+                        <select class="form-control" id="gender" required>
                             <option value="" disabled selected>Select gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
@@ -123,24 +119,24 @@
                     </div>
                     <div class="form-group">
                         <label for="age">Age</label>
-                        <input type="number" class="form-control" name="age" id="age" placeholder="Enter age" required>
+                        <input type="number" class="form-control" id="age" placeholder="Enter age" required>
                     </div>
                     <div class="form-group">
                         <label for="cellNumber">Cell Number</label>
-                        <input type="text" class="form-control" name="cellphone_number" id="cellNumber" placeholder="Enter cell number" pattern="[0-9]{10}" title="Please enter a 10-digit phone number" required>
+                        <input type="text" class="form-control" id="cellNumber" placeholder="Enter cell number" pattern="[0-9]{10}" title="Please enter a 10-digit phone number" required>
                         <small class="form-text text-muted">Please enter a 10-digit phone number.</small>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Enter email address" required>
+                        <input type="email" class="form-control" id="email" placeholder="Enter email address" required>
                     </div>
                     <div class="form-group">
                         <label for="jobTitle">Job Title</label>
-                        <input type="text" class="form-control" name="job" id="jobTitle" placeholder="Enter job title" required>
+                        <input type="text" class="form-control" id="jobTitle" placeholder="Enter job title" required>
                     </div>
                     <div class="form-group">
                         <label for="department">Department</label>
-                        <select class="form-control" name="department" id="department" required>
+                        <select class="form-control" id="department" required>
                             <option value="" disabled selected>Select department</option>
                             <option value="Engineering">Engineering</option>
                             <option value="Human Resources">Human Resources</option>
@@ -151,15 +147,15 @@
                     </div>
                     <div class="form-group">
                         <label for="dateJoined">Date Joined</label>
-                        <input type="date" class="form-control" name="date" id="dateJoined" required>
+                        <input type="date" class="form-control" id="dateJoined" required>
                     </div>
                     <div class="form-group">
                         <label for="profilePicture">Profile Picture</label>
-                        <input type="file" class="form-control" name="picture" id="profilePicture" accept="image/*" >
+                        <input type="file" class="form-control" id="profilePicture" accept="image/*">
                     </div>
                     <div class="form-group">
                         <label for="resume">Resume</label>
-                        <input type="file" class="form-control" name="files" id="resume" accept=".pdf,.doc,.docx" >
+                        <input type="file" class="form-control" id="resume" accept=".pdf,.doc,.docx">
                     </div>
                     <button type="submit" class="btn btn-primary" id="submitButton">Add Employee</button>
                     <button type="button" class="btn btn-warning ml-2" id="updateButton" style="display:none;">Update Employee</button>
@@ -203,168 +199,167 @@
     </footer>
 
     <!-- JavaScript dependencies -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script>
-        // Function to fetch employees from local storage
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyALiGT8-h7U_H9Z_58l1naWhixqFOtudZI",
+            authDomain: "chidochashe-341a1.firebaseapp.com",
+            databaseURL: "https://chidochashe-341a1-default-rtdb.firebaseio.com",
+            projectId: "chidochashe-341a1",
+            storageBucket: "chidochashe-341a1.appspot.com",
+            messagingSenderId: "435112381168",
+            appId: "1:435112381168:web:2d84921c63881a49ef1035",
+            measurementId: "G-LNLZ8HSHFB"
+          };
+        
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        var database = firebase.database();
+
+        // Add Employee function
+        function addEmployee(employee) {
+            database.ref('employees/' + employee.cellNumber).set(employee, function(error) {
+                if (error) {
+                    console.error("Error adding employee: ", error);
+                } else {
+                    console.log("Employee added successfully!");
+                    fetchEmployees();
+                }
+            });
+        }
+
+        // Fetch Employees function
         function fetchEmployees() {
-            var employees = localStorage.getItem('employees');
-            return employees ? JSON.parse(employees) : [];
-        }
-
-        // Function to save employees to local storage
-        function saveEmployees(employees) {
-            localStorage.setItem('employees', JSON.stringify(employees));
-        }
-
-        // Function to update the total employee count
-        function updateEmployeeCount() {
-            var employees = fetchEmployees();
-            localStorage.setItem('employeeCount', employees.length);
-        }
-
-        // Function to display employees in the table
-        function displayEmployees() {
-            var employees = fetchEmployees();
-            var tableBody = $('#employeeTableBody');
-            tableBody.empty();
-
-            employees.forEach(function(employee) {
-                tableBody.append('<tr>' +
-                    '<td>' + employee.fullName + '</td>' +
-                    '<td>' + employee.jobTitle + '</td>' +
-                    '<td>' + employee.department + '</td>' +
-                    '<td>' + employee.gender + '</td>' +
-                    '<td>' + employee.age + '</td>' +
-                    '<td>' + employee.cellNumber + '</td>' +
-                    '<td>' + employee.email + '</td>' +
-                    '<td>' + employee.dateJoined + '</td>' +
-                    '<td><img src="' + employee.profilePicture + '" alt="Profile Picture" width="50"></td>' +
-                    '<td><a href="' + employee.resume + '" target="_blank">View Resume</a></td>' +
-                    '<td><button class="btn btn-warning btn-sm editEmployee" data-id="' + employee.id + '">Edit</button>' +
-                    '<button class="btn btn-danger btn-sm deleteEmployee" data-id="' + employee.id + '">Delete</button></td>' +
-                    '</tr>');
+            database.ref('employees').once('value', function(snapshot) {
+                var employeeTableBody = document.getElementById('employeeTableBody');
+                employeeTableBody.innerHTML = ''; // Clear the table body
+                snapshot.forEach(function(childSnapshot) {
+                    var employee = childSnapshot.val();
+                    var row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${employee.fullName}</td>
+                        <td>${employee.jobTitle}</td>
+                        <td>${employee.department}</td>
+                        <td>${employee.gender}</td>
+                        <td>${employee.age}</td>
+                        <td>${employee.cellNumber}</td>
+                        <td>${employee.email}</td>
+                        <td>${employee.dateJoined}</td>
+                        <td><img src="${employee.profilePicture}" alt="Profile Picture" width="50"></td>
+                        <td><a href="${employee.resume}" target="_blank">Resume</a></td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="editEmployee('${employee.cellNumber}')">Edit</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteEmployee('${employee.cellNumber}')">Delete</button>
+                        </td>
+                    `;
+                    employeeTableBody.appendChild(row);
+                });
             });
         }
 
-        // Add employee
-        $('#employeeForm').submit(function(event) {
+        // Edit Employee function
+        function editEmployee(cellNumber) {
+            // Fetch employee data and populate form for editing
+            database.ref('employees/' + cellNumber).once('value', function(snapshot) {
+                var employee = snapshot.val();
+                document.getElementById('fullName').value = employee.fullName;
+                document.getElementById('gender').value = employee.gender;
+                document.getElementById('age').value = employee.age;
+                document.getElementById('cellNumber').value = employee.cellNumber;
+                document.getElementById('email').value = employee.email;
+                document.getElementById('jobTitle').value = employee.jobTitle;
+                document.getElementById('department').value = employee.department;
+                document.getElementById('dateJoined').value = employee.dateJoined;
+                document.getElementById('submitButton').style.display = 'none';
+                document.getElementById('updateButton').style.display = 'inline-block';
+                document.getElementById('deleteButton').style.display = 'inline-block';
+            });
+        }
+
+        // Update Employee function
+        document.getElementById('updateButton').addEventListener('click', function(event) {
             event.preventDefault();
-            var fullName = $('#fullName').val();
-            var jobTitle = $('#jobTitle').val();
-            var department = $('#department').val();
-            var gender = $('#gender').val();
-            var age = $('#age').val();
-            var cellNumber = $('#cellNumber').val();
-            var email = $('#email').val();
-            var dateJoined = $('#dateJoined').val();
-            var profilePicture = $('#profilePicture')[0].files[0];
-            var resume = $('#resume')[0].files[0];
+            var employee = {
+                fullName: document.getElementById('fullName').value,
+                gender: document.getElementById('gender').value,
+                age: document.getElementById('age').value,
+                cellNumber: document.getElementById('cellNumber').value,
+                email: document.getElementById('email').value,
+                jobTitle: document.getElementById('jobTitle').value,
+                department: document.getElementById('department').value,
+                dateJoined: document.getElementById('dateJoined').value,
+                profilePicture: document.getElementById('profilePicture').files[0] ? URL.createObjectURL(document.getElementById('profilePicture').files[0]) : '',
+                resume: document.getElementById('resume').files[0] ? URL.createObjectURL(document.getElementById('resume').files[0]) : ''
+            };
 
-            var employees = fetchEmployees();
-
-            // Generate unique ID (for demo, replace with actual ID generation logic)
-            var id = employees.length + 1;
-
-            var profilePictureUrl = URL.createObjectURL(profilePicture);
-            var resumeUrl = URL.createObjectURL(resume);
-
-            // Add new employee to array
-            employees.push({
-                id: id,
-                fullName: fullName,
-                jobTitle: jobTitle,
-                department: department,
-                gender: gender,
-                age: age,
-                cellNumber: cellNumber,
-                email: email,
-                dateJoined: dateJoined,
-                profilePicture: profilePictureUrl,
-                resume: resumeUrl
+            database.ref('employees/' + employee.cellNumber).update(employee, function(error) {
+                if (error) {
+                    console.error("Error updating employee: ", error);
+                } else {
+                    console.log("Employee updated successfully!");
+                    fetchEmployees();
+                    document.getElementById('employeeForm').reset();
+                    document.getElementById('submitButton').style.display = 'inline-block';
+                    document.getElementById('updateButton').style.display = 'none';
+                    document.getElementById('deleteButton').style.display = 'none';
+                }
             });
-
-            // Save updated employees to local storage
-            saveEmployees(employees);
-
-            // Update employee count
-            updateEmployeeCount();
-
-            // Update table display
-            displayEmployees();
-
-            // Reset form
-            $('#employeeForm')[0].reset();
         });
 
-        // Update employee
-        $('#updateButton').click(function() {
-            var id = $(this).data('id');
-            var employees = fetchEmployees();
-            var index = employees.findIndex(emp => emp.id === id);
-            if (index !== -1) {
-                employees[index].fullName = $('#fullName').val();
-                employees[index].jobTitle = $('#jobTitle').val();
-                employees[index].department = $('#department').val();
-                employees[index].gender = $('#gender').val();
-                employees[index].age = $('#age').val();
-                employees[index].cellNumber = $('#cellNumber').val();
-                employees[index].email = $('#email').val();
-                employees[index].dateJoined = $('#dateJoined').val();
-
-                // Save updated employees to local storage
-                saveEmployees(employees);
-
-                // Update employee count
-                updateEmployeeCount();
-
-                // Update table display
-                displayEmployees();
-
-                // Reset form and buttons
-                $('#employeeForm')[0].reset();
-                $('#submitButton').show();
-                $('#updateButton').hide();
-                $('#deleteButton').hide();
-            }
+        // Delete Employee function
+        document.getElementById('deleteButton').addEventListener('click', function(event) {
+            event.preventDefault();
+            var cellNumber = document.getElementById('cellNumber').value;
+            database.ref('employees/' + cellNumber).remove(function(error) {
+                if (error) {
+                    console.error("Error deleting employee: ", error);
+                } else {
+                    console.log("Employee deleted successfully!");
+                    fetchEmployees();
+                    document.getElementById('employeeForm').reset();
+                    document.getElementById('submitButton').style.display = 'inline-block';
+                    document.getElementById('updateButton').style.display = 'none';
+                    document.getElementById('deleteButton').style.display = 'none';
+                }
+            });
         });
 
-        // Delete employee
-        $(document).on('click', '.deleteEmployee', function() {
-            var id = $(this).data('id');
-            var employees = fetchEmployees();
-            var index = employees.findIndex(emp => emp.id === id);
-            if (index !== -1) {
-                employees.splice(index, 1);
+        // Form Submit Event
+        document.getElementById('employeeForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var employee = {
+                fullName: document.getElementById('fullName').value,
+                gender: document.getElementById('gender').value,
+                age: document.getElementById('age').value,
+                cellNumber: document.getElementById('cellNumber').value,
+                email: document.getElementById('email').value,
+                jobTitle: document.getElementById('jobTitle').value,
+                department: document.getElementById('department').value,
+                dateJoined: document.getElementById('dateJoined').value,
+                profilePicture: document.getElementById('profilePicture').files[0] ? URL.createObjectURL(document.getElementById('profilePicture').files[0]) : '',
+                resume: document.getElementById('resume').files[0] ? URL.createObjectURL(document.getElementById('resume').files[0]) : ''
+            };
 
-                // Save updated employees to local storage
-                saveEmployees(employees);
-
-                // Update employee count
-                updateEmployeeCount();
-
-                // Update table display
-                displayEmployees();
-
-                // Reset form and buttons
-                $('#employeeForm')[0].reset();
-                $('#submitButton').show();
-                $('#updateButton').hide();
-                $('#deleteButton').hide();
-            }
+            addEmployee(employee);
+            document.getElementById('employeeForm').reset();
         });
 
-        // Reset form
-        $('#resetButton').click(function() {
-            $('#employeeForm')[0].reset();
-            $('#submitButton').show();
-            $('#updateButton').hide();
-            $('#deleteButton').hide();
+        // Reset Form Event
+        document.getElementById('resetButton').addEventListener('click', function() {
+            document.getElementById('employeeForm').reset();
+            document.getElementById('submitButton').style.display = 'inline-block';
+            document.getElementById('updateButton').style.display = 'none';
+            document.getElementById('deleteButton').style.display = 'none';
         });
 
-        // Initial display of employees
-        displayEmployees();
+        // Initial Fetch of Employees
+        fetchEmployees();
     </script>
 </body>
 </html>

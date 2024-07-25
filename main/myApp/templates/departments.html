@@ -73,8 +73,8 @@
                         <label for="manager">Manager:</label>
                         <select class="form-control" id="manager" name="manager">
                             <!-- Add manager options here -->
-                            <option value="John Doe">John Doe</option>
-                            <option value="Jane Smith">Jane Smith</option>
+                            <option value="John Doe">John Thomas</option>
+                            <option value="Jane Smith">Nara Smith</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -120,7 +120,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
-            const departments = [];
+            const departments = JSON.parse(localStorage.getItem('departments')) || [];
 
             function renderDepartments() {
                 $('#departmentsTableBody').empty();
@@ -138,6 +138,10 @@
                         </tr>
                     `);
                 });
+            }
+
+            function saveDepartments() {
+                localStorage.setItem('departments', JSON.stringify(departments));
             }
 
             $('#departmentForm').on('submit', function(event) {
@@ -161,6 +165,7 @@
                 
                 departments.push({ name: departmentName, manager: manager, supervisor: supervisor, director: director });
                 renderDepartments();
+                saveDepartments(); // Save to localStorage
                 $('#departmentName').val('');
                 $('#manager').val('');
                 $('#supervisor').val('');
@@ -180,6 +185,7 @@
                     departments[index].supervisor = $('#supervisor').val();
                     departments[index].director = $('#director').val();
                     renderDepartments();
+                    saveDepartments(); // Save to localStorage
                     $('#departmentName').val('');
                     $('#manager').val('');
                     $('#supervisor').val('');
@@ -191,6 +197,7 @@
             window.deleteDepartment = function(index) {
                 departments.splice(index, 1);
                 renderDepartments();
+                saveDepartments(); // Save to localStorage
             }
 
             function addDepartment(event) {
@@ -214,11 +221,14 @@
                 
                 departments.push({ name: departmentName, manager: manager, supervisor: supervisor, director: director });
                 renderDepartments();
+                saveDepartments(); // Save to localStorage
                 $('#departmentName').val('');
                 $('#manager').val('');
                 $('#supervisor').val('');
                 $('#director').val('');
             }
+
+            renderDepartments(); // Initial render
         });
     </script>
 </body>
